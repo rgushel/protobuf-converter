@@ -1,0 +1,8 @@
+/.idea
+
+/build
+/.gradle
+*.iml
+/example/.idea
+/example/.gradle
+/example/build

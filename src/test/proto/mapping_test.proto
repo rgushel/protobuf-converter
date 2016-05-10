@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package net.badata.protobuf.converter.proto;
+
+option java_package = "net.badata.protobuf.converter.proto";
+option java_outer_classname = "MappingProto";
+
+
+message NestedTest {
+    string stringValue = 1;
+}
+
+message MappingTest {
+	int32 intValue = 1;
+	int64 longValue = 2;
+	float floatValue = 3;
+	double doubleValue = 4;
+	bool booleanValue = 5;
+	string stringValue = 6;
+	NestedTest nestedValue = 7;
+	repeated string stringListValue = 8;
+	repeated NestedTest nestedListValue = 9;
+}
+
+
+
+
+
+

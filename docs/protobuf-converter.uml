@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>net.badata.protobuf.converter</OriginalElement>
+  <nodes>
+    <node x="" y="">net.badata.protobuf.converter.annotation.ProtoClass</node>
+    <node x="464.7099596231493" y="974.455921938089">net.badata.protobuf.converter.type.EnumStringConverter</node>
+    <node x="772.0" y="301.0">net.badata.protobuf.converter.utils.AnnotationUtils</node>
+    <node x="" y="">net.badata.protobuf.converter.type.DefaultConverterImpl</node>
+    <node x="1329.0376591779682" y="994.7207103125677">net.badata.protobuf.converter.utils.StringUtils</node>
+    <node x="1325.678676975783" y="820.3901377895323">net.badata.protobuf.converter.utils.Primitives</node>
+    <node x="1231.0" y="156.0">net.badata.protobuf.converter.mapping.Mapper</node>
+    <node x="343.2022442564165" y="707.5418874530585">net.badata.protobuf.converter.annotation.ProtoField</node>
+    <node x="217.7099596231493" y="1193.455921938089">net.badata.protobuf.converter.inspection.DefaultNullValueInspectorImpl</node>
+    <node x="1323.0484522207264" y="534.1080080753702">net.badata.protobuf.converter.utils.FieldUtils</node>
+    <node x="641.0" y="356.0">net.badata.protobuf.converter.writer.ProtobufWriter</node>
+    <node x="692.7099596231493" y="974.455921938089">net.badata.protobuf.converter.type.DateLongConverterImpl</node>
+    <node x="1068.5" y="178.0">net.badata.protobuf.converter.exception.MappingException</node>
+    <node x="1599.0" y="145.0">net.badata.protobuf.converter.mapping.MappingResult</node>
+    <node x="488.0" y="356.0">net.badata.protobuf.converter.writer.DomainWriter</node>
+    <node x="-49.2900403768507" y="1092.455921938089">net.badata.protobuf.converter.inspection.DefaultValue</node>
+    <node x="-49.2900403768507" y="1193.455921938089">net.badata.protobuf.converter.inspection.SimpleDefaultValueImpl</node>
+    <node x="316.0" y="356.0">net.badata.protobuf.converter.exception.TypeRelationException</node>
+    <node x="228.7099596231493" y="1092.455921938089">net.badata.protobuf.converter.inspection.NullValueInspector</node>
+    <node x="342.5" y="511.0">net.badata.protobuf.converter.Converter</node>
+    <node x="343.7099596231493" y="851.455921938089">net.badata.protobuf.converter.type.TypeConverter</node>
+    <node x="1611.25" y="356.0">net.badata.protobuf.converter.exception.ConverterException</node>
+    <node x="469.75" y="167.0">net.badata.protobuf.converter.writer.AbstractWriter</node>
+    <node x="" y="">net.badata.protobuf.converter.FieldsIgnore</node>
+    <node x="1243.25" y="334.0">net.badata.protobuf.converter.mapping.DefaultMapperImpl</node>
+    <node x="668.75" y="178.0">net.badata.protobuf.converter.exception.WriteException</node>
+    <node x="1627.0" y="0.0">net.badata.protobuf.converter.mapping.MappingResult.Result</node>
+    <node x="-49.2900403768507" y="974.455921938089">net.badata.protobuf.converter.type.SetListConverterImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="net.badata.protobuf.converter.writer.ProtobufWriter" target="net.badata.protobuf.converter.exception.WriteException">
+      <point x="27.75" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.writer.ProtobufWriter" target="net.badata.protobuf.converter.writer.AbstractWriter">
+      <point x="-27.75" y="-14.5" />
+      <point x="668.75" y="260.0" />
+      <point x="604.0" y="260.0" />
+      <point x="44.75" y="25.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.inspection.SimpleDefaultValueImpl" target="net.badata.protobuf.converter.inspection.DefaultValue">
+      <point x="0.0" y="-25.5" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.mapping.MappingResult" target="net.badata.protobuf.converter.mapping.MappingResult.Result">
+      <point x="0.0" y="-47.5" />
+      <point x="0.0" y="47.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.Converter" target="net.badata.protobuf.converter.writer.DomainWriter">
+      <point x="20.666666666666686" y="-80.5" />
+      <point x="487.1666666666667" y="471.0" />
+      <point x="541.0" y="471.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.mapping.DefaultMapperImpl" target="net.badata.protobuf.converter.mapping.Mapper">
+      <point x="0.0" y="-36.5" />
+      <point x="1417.25" y="270.0" />
+      <point x="1405.0" y="270.0" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.Converter" target="net.badata.protobuf.converter.exception.TypeRelationException">
+      <point x="-20.66666666666663" y="-80.5" />
+      <point x="445.83333333333337" y="471.0" />
+      <point x="392.0" y="471.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.writer.DomainWriter" target="net.badata.protobuf.converter.exception.WriteException">
+      <point x="26.5" y="-14.5" />
+      <point x="567.5" y="270.0" />
+      <point x="687.25" y="270.0" />
+      <point x="-37.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.writer.DomainWriter" target="net.badata.protobuf.converter.writer.AbstractWriter">
+      <point x="-26.5" y="-14.5" />
+      <point x="-44.75" y="25.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.type.EnumStringConverter" target="net.badata.protobuf.converter.type.TypeConverter">
+      <point x="0.0" y="-36.5" />
+      <point x="568.7099596231493" y="954.455921938089" />
+      <point x="473.7099596231493" y="954.455921938089" />
+      <point x="26.0" y="36.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.mapping.DefaultMapperImpl" target="net.badata.protobuf.converter.exception.MappingException">
+      <point x="-116.0" y="-36.5" />
+      <point x="1301.25" y="270.0" />
+      <point x="1166.75" y="270.0" />
+      <point x="32.75" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.Converter" target="net.badata.protobuf.converter.exception.ConverterException">
+      <point x="103.33333333333337" y="-80.5" />
+      <point x="569.8333333333334" y="491.0" />
+      <point x="1678.75" y="491.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.Converter" target="net.badata.protobuf.converter.FieldsIgnore">
+      <point x="-103.33333333333337" y="-80.5" />
+      <point x="363.16666666666663" y="491.0" />
+      <point x="74.0" y="491.0" />
+      <point x="-74.0" y="80.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.mapping.DefaultMapperImpl" target="net.badata.protobuf.converter.mapping.MappingResult">
+      <point x="116.0" y="-36.5" />
+      <point x="1533.25" y="270.0" />
+      <point x="1689.5" y="270.0" />
+      <point x="0.0" y="47.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.inspection.DefaultNullValueInspectorImpl" target="net.badata.protobuf.converter.inspection.NullValueInspector">
+      <point x="0.0" y="-25.5" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.Converter" target="net.badata.protobuf.converter.writer.ProtobufWriter">
+      <point x="62.0" y="-80.5" />
+      <point x="528.5" y="481.0" />
+      <point x="696.5" y="481.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.type.DefaultConverterImpl" target="net.badata.protobuf.converter.type.TypeConverter">
+      <point x="0.0" y="-36.5" />
+      <point x="326.7099596231493" y="954.455921938089" />
+      <point x="421.7099596231493" y="954.455921938089" />
+      <point x="-26.0" y="36.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.utils.AnnotationUtils" target="net.badata.protobuf.converter.exception.MappingException">
+      <point x="109.75" y="-69.5" />
+      <point x="-32.75" y="14.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.type.SetListConverterImpl" target="net.badata.protobuf.converter.type.TypeConverter">
+      <point x="0.0" y="-36.5" />
+      <point x="69.7099596231493" y="944.455921938089" />
+      <point x="369.7099596231493" y="944.455921938089" />
+      <point x="-78.0" y="36.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.type.DateLongConverterImpl" target="net.badata.protobuf.converter.type.TypeConverter">
+      <point x="0.0" y="-36.5" />
+      <point x="805.2099596231493" y="944.455921938089" />
+      <point x="525.7099596231493" y="944.455921938089" />
+      <point x="78.0" y="36.5" />
+    </edge>
+    <edge source="net.badata.protobuf.converter.utils.AnnotationUtils" target="net.badata.protobuf.converter.exception.WriteException">
+      <point x="-109.75" y="-69.5" />
+      <point x="881.75" y="270.0" />
+      <point x="761.25" y="270.0" />
+      <point x="37.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.77094682230869" x="567.9412853297442" y="608.9724091520861" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

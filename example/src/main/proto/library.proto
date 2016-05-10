@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package net.badata.protobuf.example.proto;
+
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_package = "net.badata.protobuf.example.proto";
+option java_outer_classname = "LibraryProto";
+
+message User {
+	string name = 1;
+	string password = 2;
+}
+
+message RegisteredUser {
+	User user = 1;
+	string token = 2;
+}
+
+message Book {
+	int64 id = 1;
+	User owner = 2;
+	string author = 3;
+	string title = 4;
+	int32 pages = 5;
+	BookState state = 6;
+}
+
+message Books {
+	repeated Book book = 1;
+}
+
+enum BookState {
+	AVAILABLE = 0;
+	UNAVAILABLE = 1;
+}
+
+message Request {
+	string userToken = 1;
+	google.protobuf.Any data = 2;
+}
+
+
+message Response {
+	google.protobuf.Any data = 1;
+}
+
+message Failure {
+	string cause = 1;
+}
+
+
+service LibraryService {
+
+  rpc SignIn (User) returns (RegisteredUser) {}
+
+  rpc GetBook (Request) returns (Response) {}
+
+  rpc AddBook (Request) returns (Response) {}
+
+  rpc ShowLibrary (Request) returns (Response) {}
+}
