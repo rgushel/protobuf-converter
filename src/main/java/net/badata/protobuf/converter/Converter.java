@@ -1,13 +1,13 @@
 package net.badata.protobuf.converter;
 
 import com.google.protobuf.Message;
-import net.badata.protobuf.converter.exception.MappingException;
-import net.badata.protobuf.converter.exception.TypeRelationException;
-import net.badata.protobuf.converter.mapping.Mapper;
-import net.badata.protobuf.converter.mapping.MappingResult;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.exception.ConverterException;
+import net.badata.protobuf.converter.exception.MappingException;
+import net.badata.protobuf.converter.exception.TypeRelationException;
 import net.badata.protobuf.converter.exception.WriteException;
+import net.badata.protobuf.converter.mapping.Mapper;
+import net.badata.protobuf.converter.mapping.MappingResult;
 import net.badata.protobuf.converter.utils.AnnotationUtils;
 import net.badata.protobuf.converter.utils.FieldUtils;
 import net.badata.protobuf.converter.writer.DomainWriter;
@@ -16,6 +16,8 @@ import net.badata.protobuf.converter.writer.ProtobufWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -62,18 +64,26 @@ public final class Converter {
 	/**
 	 * Create domain object list from Protobuf dto list.
 	 *
-	 * @param domainClass  Expected domain object type.
-	 * @param protobufList Source instance of Protobuf dto list.
-	 * @param <T>          Domain type.
-	 * @param <E>          Protobuf dto type.
+	 * @param domainClass        Expected domain object type.
+	 * @param protobufCollection Source instance of Protobuf dto collection.
+	 * @param <T>                Domain type.
+	 * @param <E>                Protobuf dto type.
 	 * @return Domain objects list filled with data stored in the Protobuf dto list.
 	 */
-	public <T, E extends Message> List<T> toDomain(final Class<T> domainClass, final List<E> protobufList) {
-		List<T> domainList = new ArrayList<T>();
-		for (E protobuf : protobufList) {
+	public <T, E extends Message> List<T> toDomain(final Class<T> domainClass, final Collection<E>
+			protobufCollection) {
+		return toDomain(List.class, domainClass, protobufCollection);
+
+	}
+
+	private <T, E extends Message, K extends Collection> K toDomain(final Class<K> collectionClass,
+			final Class<T> domainClass, final Collection<E> protobufCollection) {
+		Collection<T> domainList = List.class.isAssignableFrom(collectionClass) ? new ArrayList<T>() : new
+				HashSet<T>();
+		for (E protobuf : protobufCollection) {
 			domainList.add(toDomain(domainClass, protobuf));
 		}
-		return domainList;
+		return (K) domainList;
 	}
 
 	/**
@@ -154,18 +164,25 @@ public final class Converter {
 	/**
 	 * Create Protobuf dto list from domain object list.
 	 *
-	 * @param protobufClass Expected Protobuf class.
-	 * @param domainList    Source domain instance list.
-	 * @param <T>           Domain type.
-	 * @param <E>           Protobuf dto type.
+	 * @param protobufClass    Expected Protobuf class.
+	 * @param domainCollection Source domain collection.
+	 * @param <T>              Domain type.
+	 * @param <E>              Protobuf dto type.
 	 * @return Protobuf dto list filled with data stored in the domain object list.
 	 */
-	public <T, E extends Message> List<E> toProtobuf(final Class<E> protobufClass, final List<T> domainList) {
-		List<E> protobufList = new ArrayList<E>();
-		for (T domain : domainList) {
-			protobufList.add(toProtobuf(protobufClass, domain));
+	public <T, E extends Message> List<E> toProtobuf(final Class<E> protobufClass, final Collection<T>
+			domainCollection) {
+		return toProtobuf(List.class, protobufClass, domainCollection);
+	}
+
+	private <T, E extends Message, K extends Collection> K toProtobuf(final Class<K> collectionClass,
+			final Class<E> protobufClass, final Collection<T> domainCollection) {
+		Collection<E> protobufCollection = List.class.isAssignableFrom(collectionClass) ? new ArrayList<E>() : new
+				HashSet<E>();
+		for (T domain : domainCollection) {
+			protobufCollection.add(toProtobuf(protobufClass, domain));
 		}
-		return protobufList;
+		return (K)protobufCollection;
 	}
 
 	/**
@@ -230,7 +247,7 @@ public final class Converter {
 				if (FieldUtils.isComplexType(collectionType)) {
 					Class<? extends Message> protobufCollectionClass = AnnotationUtils.extractMessageType(
 							collectionType);
-					mappedValue = createProtobufValueList(protobufCollectionClass, mappedValue);
+					mappedValue = createProtobufValueList(protobufCollectionClass, (Collection)mappedValue);
 				}
 			case MAPPED:
 			default:
@@ -238,8 +255,9 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message> List<E> createProtobufValueList(final Class<E> type, final Object domainCollection) {
-		return create(fieldsIgnore).toProtobuf(type, (List<?>) domainCollection);
+	private <E extends Message> Collection<?> createProtobufValueList(final Class<E> type, final Collection<?>
+			domainCollection) {
+		return create(fieldsIgnore).toProtobuf(domainCollection.getClass(), type, domainCollection);
 	}
 
 }

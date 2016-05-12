@@ -2202,6 +2202,30 @@ public final class ConverterProto {
      */
     net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder getComplexListValueOrBuilder(
         int index);
+
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> 
+        getComplexSetValueList();
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest getComplexSetValue(int index);
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    int getComplexSetValueCount();
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    java.util.List<? extends net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder> 
+        getComplexSetValueOrBuilderList();
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder getComplexSetValueOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code net.badata.protobuf.converter.proto.ConverterTest}
@@ -2223,6 +2247,7 @@ public final class ConverterProto {
       stringValue_ = "";
       stringListValue_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       complexListValue_ = java.util.Collections.emptyList();
+      complexSetValue_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -2336,6 +2361,14 @@ public final class ConverterProto {
               complexListValue_.add(input.readMessage(net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.parser(), extensionRegistry));
               break;
             }
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+                complexSetValue_ = new java.util.ArrayList<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest>();
+                mutable_bitField0_ |= 0x00000800;
+              }
+              complexSetValue_.add(input.readMessage(net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2350,6 +2383,9 @@ public final class ConverterProto {
         }
         if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
           complexListValue_ = java.util.Collections.unmodifiableList(complexListValue_);
+        }
+        if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+          complexSetValue_ = java.util.Collections.unmodifiableList(complexSetValue_);
         }
         makeExtensionsImmutable();
       }
@@ -2573,6 +2609,41 @@ public final class ConverterProto {
       return complexListValue_.get(index);
     }
 
+    public static final int COMPLEXSETVALUE_FIELD_NUMBER = 12;
+    private java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> complexSetValue_;
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    public java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> getComplexSetValueList() {
+      return complexSetValue_;
+    }
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    public java.util.List<? extends net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder> 
+        getComplexSetValueOrBuilderList() {
+      return complexSetValue_;
+    }
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    public int getComplexSetValueCount() {
+      return complexSetValue_.size();
+    }
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest getComplexSetValue(int index) {
+      return complexSetValue_.get(index);
+    }
+    /**
+     * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+     */
+    public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder getComplexSetValueOrBuilder(
+        int index) {
+      return complexSetValue_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2617,6 +2688,9 @@ public final class ConverterProto {
       }
       for (int i = 0; i < complexListValue_.size(); i++) {
         output.writeMessage(11, complexListValue_.get(i));
+      }
+      for (int i = 0; i < complexSetValue_.size(); i++) {
+        output.writeMessage(12, complexSetValue_.get(i));
       }
     }
 
@@ -2671,6 +2745,10 @@ public final class ConverterProto {
       for (int i = 0; i < complexListValue_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, complexListValue_.get(i));
+      }
+      for (int i = 0; i < complexSetValue_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, complexSetValue_.get(i));
       }
       memoizedSize = size;
       return size;
@@ -2780,6 +2858,7 @@ public final class ConverterProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getComplexListValueFieldBuilder();
+          getComplexSetValueFieldBuilder();
         }
       }
       public Builder clear() {
@@ -2821,6 +2900,12 @@ public final class ConverterProto {
           bitField0_ = (bitField0_ & ~0x00000400);
         } else {
           complexListValueBuilder_.clear();
+        }
+        if (complexSetValueBuilder_ == null) {
+          complexSetValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000800);
+        } else {
+          complexSetValueBuilder_.clear();
         }
         return this;
       }
@@ -2880,6 +2965,15 @@ public final class ConverterProto {
           result.complexListValue_ = complexListValue_;
         } else {
           result.complexListValue_ = complexListValueBuilder_.build();
+        }
+        if (complexSetValueBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) == 0x00000800)) {
+            complexSetValue_ = java.util.Collections.unmodifiableList(complexSetValue_);
+            bitField0_ = (bitField0_ & ~0x00000800);
+          }
+          result.complexSetValue_ = complexSetValue_;
+        } else {
+          result.complexSetValue_ = complexSetValueBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -2958,6 +3052,32 @@ public final class ConverterProto {
                    getComplexListValueFieldBuilder() : null;
             } else {
               complexListValueBuilder_.addAllMessages(other.complexListValue_);
+            }
+          }
+        }
+        if (complexSetValueBuilder_ == null) {
+          if (!other.complexSetValue_.isEmpty()) {
+            if (complexSetValue_.isEmpty()) {
+              complexSetValue_ = other.complexSetValue_;
+              bitField0_ = (bitField0_ & ~0x00000800);
+            } else {
+              ensureComplexSetValueIsMutable();
+              complexSetValue_.addAll(other.complexSetValue_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.complexSetValue_.isEmpty()) {
+            if (complexSetValueBuilder_.isEmpty()) {
+              complexSetValueBuilder_.dispose();
+              complexSetValueBuilder_ = null;
+              complexSetValue_ = other.complexSetValue_;
+              bitField0_ = (bitField0_ & ~0x00000800);
+              complexSetValueBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getComplexSetValueFieldBuilder() : null;
+            } else {
+              complexSetValueBuilder_.addAllMessages(other.complexSetValue_);
             }
           }
         }
@@ -3871,6 +3991,246 @@ public final class ConverterProto {
         }
         return complexListValueBuilder_;
       }
+
+      private java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> complexSetValue_ =
+        java.util.Collections.emptyList();
+      private void ensureComplexSetValueIsMutable() {
+        if (!((bitField0_ & 0x00000800) == 0x00000800)) {
+          complexSetValue_ = new java.util.ArrayList<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest>(complexSetValue_);
+          bitField0_ |= 0x00000800;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder> complexSetValueBuilder_;
+
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> getComplexSetValueList() {
+        if (complexSetValueBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(complexSetValue_);
+        } else {
+          return complexSetValueBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public int getComplexSetValueCount() {
+        if (complexSetValueBuilder_ == null) {
+          return complexSetValue_.size();
+        } else {
+          return complexSetValueBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest getComplexSetValue(int index) {
+        if (complexSetValueBuilder_ == null) {
+          return complexSetValue_.get(index);
+        } else {
+          return complexSetValueBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder setComplexSetValue(
+          int index, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest value) {
+        if (complexSetValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.set(index, value);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder setComplexSetValue(
+          int index, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder builderForValue) {
+        if (complexSetValueBuilder_ == null) {
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          complexSetValueBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder addComplexSetValue(net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest value) {
+        if (complexSetValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.add(value);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder addComplexSetValue(
+          int index, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest value) {
+        if (complexSetValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.add(index, value);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder addComplexSetValue(
+          net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder builderForValue) {
+        if (complexSetValueBuilder_ == null) {
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.add(builderForValue.build());
+          onChanged();
+        } else {
+          complexSetValueBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder addComplexSetValue(
+          int index, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder builderForValue) {
+        if (complexSetValueBuilder_ == null) {
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          complexSetValueBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder addAllComplexSetValue(
+          java.lang.Iterable<? extends net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest> values) {
+        if (complexSetValueBuilder_ == null) {
+          ensureComplexSetValueIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, complexSetValue_);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder clearComplexSetValue() {
+        if (complexSetValueBuilder_ == null) {
+          complexSetValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000800);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public Builder removeComplexSetValue(int index) {
+        if (complexSetValueBuilder_ == null) {
+          ensureComplexSetValueIsMutable();
+          complexSetValue_.remove(index);
+          onChanged();
+        } else {
+          complexSetValueBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder getComplexSetValueBuilder(
+          int index) {
+        return getComplexSetValueFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder getComplexSetValueOrBuilder(
+          int index) {
+        if (complexSetValueBuilder_ == null) {
+          return complexSetValue_.get(index);  } else {
+          return complexSetValueBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public java.util.List<? extends net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder> 
+           getComplexSetValueOrBuilderList() {
+        if (complexSetValueBuilder_ != null) {
+          return complexSetValueBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(complexSetValue_);
+        }
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder addComplexSetValueBuilder() {
+        return getComplexSetValueFieldBuilder().addBuilder(
+            net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder addComplexSetValueBuilder(
+          int index) {
+        return getComplexSetValueFieldBuilder().addBuilder(
+            index, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .net.badata.protobuf.converter.proto.PrimitiveTest complexSetValue = 12;</code>
+       */
+      public java.util.List<net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder> 
+           getComplexSetValueBuilderList() {
+        return getComplexSetValueFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder> 
+          getComplexSetValueFieldBuilder() {
+        if (complexSetValueBuilder_ == null) {
+          complexSetValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder>(
+                  complexSetValue_,
+                  ((bitField0_ & 0x00000800) == 0x00000800),
+                  getParentForChildren(),
+                  isClean());
+          complexSetValue_ = null;
+        }
+        return complexSetValueBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -3968,7 +4328,7 @@ public final class ConverterProto {
       "\022\022\n\nnullString\030\001 \001(\t\022\036\n\026customInspection" +
       "String\030\002 \001(\t\022M\n\021defaultPrimitives\030\003 \001(\0132" +
       "2.net.badata.protobuf.converter.proto.Pr",
-      "imitiveTest\"\342\003\n\rConverterTest\022\020\n\010intValu" +
+      "imitiveTest\"\257\004\n\rConverterTest\022\020\n\010intValu" +
       "e\030\001 \001(\005\022\021\n\tlongValue\030\002 \001(\003\022\022\n\nfloatValue" +
       "\030\003 \001(\002\022\023\n\013doubleValue\030\004 \001(\001\022\024\n\014booleanVa" +
       "lue\030\005 \001(\010\022\023\n\013stringValue\030\006 \001(\t\022J\n\016primit" +
@@ -3980,8 +4340,10 @@ public final class ConverterProto {
       "f.converter.proto.NullDefaultTest\022\027\n\017str",
       "ingListValue\030\n \003(\t\022L\n\020complexListValue\030\013" +
       " \003(\01322.net.badata.protobuf.converter.pro" +
-      "to.PrimitiveTestB5\n#net.badata.protobuf." +
-      "converter.protoB\016ConverterProtob\006proto3"
+      "to.PrimitiveTest\022K\n\017complexSetValue\030\014 \003(" +
+      "\01322.net.badata.protobuf.converter.proto." +
+      "PrimitiveTestB5\n#net.badata.protobuf.con" +
+      "verter.protoB\016ConverterProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4018,7 +4380,7 @@ public final class ConverterProto {
     internal_static_net_badata_protobuf_converter_proto_ConverterTest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_badata_protobuf_converter_proto_ConverterTest_descriptor,
-        new java.lang.String[] { "IntValue", "LongValue", "FloatValue", "DoubleValue", "BooleanValue", "StringValue", "PrimitiveValue", "FieldConversionValue", "NullDefaultValue", "StringListValue", "ComplexListValue", });
+        new java.lang.String[] { "IntValue", "LongValue", "FloatValue", "DoubleValue", "BooleanValue", "StringValue", "PrimitiveValue", "FieldConversionValue", "NullDefaultValue", "StringListValue", "ComplexListValue", "ComplexSetValue", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

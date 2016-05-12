@@ -48,11 +48,12 @@ public class ConverterTest {
 						.setDateLong(System.currentTimeMillis())
 						.addStringSetValue("11"))
 				.setNullDefaultValue(ConverterProto.NullDefaultTest.newBuilder()
-						.setCustomInspectionString("Assumed as null value")
-						.setDefaultPrimitives(ConverterProto.PrimitiveTest.newBuilder())
+								.setCustomInspectionString("Assumed as null value")
+								.setDefaultPrimitives(ConverterProto.PrimitiveTest.newBuilder())
 				)
 				.addStringListValue("10")
 				.addComplexListValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001))
+				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
 				.build();
 	}
 
@@ -86,6 +87,9 @@ public class ConverterTest {
 		ConverterDomain.PrimitiveTest primitiveTestItem = new ConverterDomain.PrimitiveTest();
 		primitiveTestItem.setIntValue(-1001);
 		testDomain.setComplexListValue(Arrays.asList(primitiveTestItem));
+		ConverterDomain.PrimitiveTest primitiveTestSItem = new ConverterDomain.PrimitiveTest();
+		primitiveTestItem.setIntValue(-1002);
+		testDomain.setComplexSetValue(new HashSet<ConverterDomain.PrimitiveTest>(Arrays.asList(primitiveTestSItem)));
 	}
 
 	private void createIgnoredFieldsMap() {
@@ -142,6 +146,8 @@ public class ConverterTest {
 		Assert.assertEquals(testProtobuf.getStringListValue(0), result.getSimpleListValue().get(0));
 		Assert.assertEquals(testProtobuf.getComplexListValue(0).getIntValue(),
 				result.getComplexListValue().get(0).getIntValue());
+		Assert.assertEquals(testProtobuf.getComplexSetValue(0).getIntValue(),
+				result.getComplexSetValue().iterator().next().getIntValue());
 	}
 
 	@Test
@@ -193,12 +199,14 @@ public class ConverterTest {
 		Assert.assertEquals(testDomain.getSimpleListValue().get(0), result.getStringListValue(0));
 		Assert.assertEquals(testDomain.getComplexListValue().get(0).getIntValue(),
 				result.getComplexListValue(0).getIntValue());
+		Assert.assertEquals(testDomain.getComplexSetValue().iterator().next().getIntValue(),
+				result.getComplexSetValue(0).getIntValue());
 	}
 
 	@Test
 	public void testFieldIgnoreDomainToProtobuf() {
 		ConverterProto.ConverterTest result = Converter.create(fieldsIgnore)
-				.toProtobuf(ConverterProto.ConverterTest.class,	testDomain);
+				.toProtobuf(ConverterProto.ConverterTest.class, testDomain);
 
 		Assert.assertNotNull(result);
 

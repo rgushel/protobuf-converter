@@ -43,6 +43,8 @@ public class ConverterDomain {
 		private List<String> simpleListValue;
 		@ProtoField
 		private List<PrimitiveTest> complexListValue;
+		@ProtoField(converter = SetListConverterImpl.class)
+		private Set<PrimitiveTest> complexSetValue;
 
 
 		public Long getLongValue() {
@@ -132,6 +134,14 @@ public class ConverterDomain {
 
 		public void setComplexListValue(final List<PrimitiveTest> complexListValue) {
 			this.complexListValue = complexListValue;
+		}
+
+		public Set<PrimitiveTest> getComplexSetValue() {
+			return complexSetValue;
+		}
+
+		public void setComplexSetValue(final Set<PrimitiveTest> complexSetValue) {
+			this.complexSetValue = complexSetValue;
 		}
 	}
 
