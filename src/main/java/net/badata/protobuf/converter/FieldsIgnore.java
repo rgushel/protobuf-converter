@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
+
 /**
  * Stores fields and classes that have to be ignored during conversion.
  *
@@ -35,16 +37,18 @@ public class FieldsIgnore {
 	 * Add class field to ignore map.
 	 *
 	 * @param ignoredClass Owner of the ignored field.
-	 * @param ignoredField Field for ignore.
+	 * @param fields       Fields for ignore.
 	 * @return Instance of IgnoredFieldsMap.
 	 */
-	public FieldsIgnore add(final Class<?> ignoredClass, final String ignoredField) {
-		Set<String> ignoredFields = ignoreMapping.get(ignoredClass);
-		if (ignoredFields == null || ignoredFields.isEmpty()) {
-			ignoredFields = new HashSet<String>();
-			ignoreMapping.put(ignoredClass, ignoredFields);
+	public FieldsIgnore add(final Class<?> ignoredClass, final String... fields) {
+		if (fields != null) {
+			Set<String> ignoredFields = ignoreMapping.get(ignoredClass);
+			if (ignoredFields == null || ignoredFields.isEmpty()) {
+				ignoredFields = new HashSet<String>();
+				ignoreMapping.put(ignoredClass, ignoredFields);
+			}
+			ignoredFields.addAll(asList(fields));
 		}
-		ignoredFields.add(ignoredField);
 		return this;
 	}
 
@@ -52,13 +56,18 @@ public class FieldsIgnore {
 	 * Remove class field from ignore map.
 	 *
 	 * @param ignoredClass Owner of the ignored field.
-	 * @param ignoredField Field for ignore.
+	 * @param fields       Fields for ignore.
 	 * @return Instance of IgnoredFieldsMap.
 	 */
-	public FieldsIgnore remove(final Class<?> ignoredClass, final String ignoredField) {
-		Set<String> ignoredFields = ignoreMapping.get(ignoredClass);
-		if (ignoredFields != null && !ignoredFields.isEmpty()) {
-			ignoredFields.remove(ignoredField);
+	public FieldsIgnore remove(final Class<?> ignoredClass, final String... fields) {
+		if (fields != null) {
+			Set<String> ignoredFields = ignoreMapping.get(ignoredClass);
+			if (ignoredFields != null && !ignoredFields.isEmpty()) {
+				ignoredFields.removeAll(asList(fields));
+				if(ignoredFields.isEmpty()) {
+					ignoreMapping.remove(ignoredClass);
+				}
+			}
 		}
 		return this;
 	}
