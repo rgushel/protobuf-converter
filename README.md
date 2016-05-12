@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/BAData/protobuf-converter.svg?branch=master)](https://travis-ci.org/BAData/protobuf-converter)
+[![Build Status](https://api.travis-ci.org/BAData/protobuf-converter.svg)](https://travis-ci.org/BAData/protobuf-converter)
 [![GitHub release](https://img.shields.io/github/release/BAData/protobuf-converter.svg)](https://github.com/BAData/protobuf-converter/releases)
 [![Slack Status](http://badata-support.herokuapp.com/badge.svg)](https://badata-support.herokuapp.com)
 [![JitPack repository](https://jitpack.io/v/BAData/protobuf-converter.svg)](https://jitpack.io/#BAData/protobuf-converter)
