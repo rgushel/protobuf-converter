@@ -81,6 +81,39 @@ User userDomain = new User();
 FieldsIgnore ignoredFiedls = new FieldsIgnore().add(String.class);
 ProtobufUser userProto = Converter.create(ignoredFiedls).toProtobuf(ProtobufUser.class, userDomain);
 ```
+### Obfuscation
+Main Proguard options:
+```
+-keep interface net.badata.protobuf.converter.** { *; }
+
+-keep public class * implements net.badata.protobuf.converter.mapping.Mapper {
+     public <init>();
+}
+
+-keep public class * implements net.badata.protobuf.converter.type.TypeConverter {
+     public <init>();
+}
+
+-keep public class * implements net.badata.protobuf.converter.inspection.DefaultValue {
+     public <init>();
+}
+
+-keep public class * implements net.badata.protobuf.converter.inspection.NullValueInspector {
+     public <init>();
+}
+```
+
+Keep your domain objects (replace **your.package.name** with name of package where domain objects stored):
+```
+-keepclassmembers @net.badata.protobuf.converter.annotation.ProtoClass public class your.package.name.** {
+     @net.badata.protobuf.converter.annotation.ProtoField <fields>;
+     public <init>();
+     public void set*(***);
+     public boolean is*();
+     public  *** get*();
+}
+```
+
 ### Example
 **protobuf-converter** capabilities is demonstrated by project located in the _example_ folder.
 
@@ -98,6 +131,8 @@ Start client:
 ```
 java -jar example.jar
 ```
+
+
 # License
 
 GNU General Public License v3.0
