@@ -5,7 +5,6 @@ import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.exception.MappingException;
-import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.inspection.DefaultValue;
 import net.badata.protobuf.converter.inspection.NullValueInspector;
 import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
@@ -367,7 +366,7 @@ public class ConverterDomain {
 		public static final String FIELD_LONG_VALUE = "longValue";
 
 		@Override
-		public FieldResolver createResolver(final Field field) throws WriteException {
+		public FieldResolver createResolver(final Field field) {
 			if (FIELD_INT_VALUE.equals(field.getName())) {
 				return super.createResolver(field);
 			}
