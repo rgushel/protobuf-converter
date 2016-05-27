@@ -1,14 +1,24 @@
 package net.badata.protobuf.converter.domain;
 
-import net.badata.protobuf.converter.proto.ConverterProto;
+import com.google.protobuf.Message;
 import net.badata.protobuf.converter.annotation.ProtoClass;
+import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.annotation.ProtoField;
+import net.badata.protobuf.converter.exception.MappingException;
+import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.inspection.DefaultValue;
 import net.badata.protobuf.converter.inspection.NullValueInspector;
+import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
+import net.badata.protobuf.converter.mapping.MappingResult;
+import net.badata.protobuf.converter.proto.ConverterProto;
+import net.badata.protobuf.converter.resolver.AnnotatedFieldResolverFactoryImpl;
+import net.badata.protobuf.converter.resolver.DefaultFieldResolverImpl;
+import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.type.DateLongConverterImpl;
 import net.badata.protobuf.converter.type.EnumStringConverter;
 import net.badata.protobuf.converter.type.SetListConverterImpl;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +28,9 @@ import java.util.Set;
  */
 public class ConverterDomain {
 
-	@ProtoClass(ConverterProto.ConverterTest.class)
+	@ProtoClasses({@ProtoClass(ConverterProto.ConverterTest.class),
+					@ProtoClass(value = ConverterProto.MultiMappingTest.class, mapper = MultiMappingMapperImpl.class,
+								fieldFactory = FieldResolverFactoryImpl.class)})
 	public static class Test {
 
 		@ProtoField
@@ -346,6 +358,48 @@ public class ConverterDomain {
 		@Override
 		public Object generateValue(final Class<?> type) {
 			return "Custom default";
+		}
+	}
+
+	public static class FieldResolverFactoryImpl extends AnnotatedFieldResolverFactoryImpl {
+
+		public static final String FIELD_INT_VALUE = "intValue";
+		public static final String FIELD_LONG_VALUE = "longValue";
+
+		@Override
+		public FieldResolver createResolver(final Field field) throws WriteException {
+			if (FIELD_INT_VALUE.equals(field.getName())) {
+				return super.createResolver(field);
+			}
+			if (FIELD_LONG_VALUE.equals(field.getName())) {
+				DefaultFieldResolverImpl fieldResolver = (DefaultFieldResolverImpl) super.createResolver(field);
+				fieldResolver.setProtobufName("longValueChanged");
+				return fieldResolver;
+			}
+			return new DefaultFieldResolverImpl(field);
+		}
+	}
+
+	public static class MultiMappingMapperImpl extends DefaultMapperImpl {
+
+		@Override
+		public <T extends Message.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver,
+				final Object domain, final T protobufBuilder) throws MappingException {
+			if (FieldResolverFactoryImpl.FIELD_INT_VALUE.equals(fieldResolver.getDomainName()) ||
+					FieldResolverFactoryImpl.FIELD_LONG_VALUE.equals(fieldResolver.getDomainName())) {
+				return super.mapToProtobufField(fieldResolver, domain, protobufBuilder);
+			}
+			return new MappingResult(MappingResult.Result.MAPPED, null, protobufBuilder);
+		}
+
+		@Override
+		public <T extends Message> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T
+				protobuf, final Object domain) throws MappingException {
+			if (FieldResolverFactoryImpl.FIELD_INT_VALUE.equals(fieldResolver.getDomainName()) ||
+					FieldResolverFactoryImpl.FIELD_LONG_VALUE.equals(fieldResolver.getDomainName())) {
+				return super.mapToDomainField(fieldResolver, protobuf, domain);
+			}
+			return new MappingResult(MappingResult.Result.MAPPED, null, domain);
 		}
 	}
 }

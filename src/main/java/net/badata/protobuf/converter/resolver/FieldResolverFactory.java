@@ -15,31 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package net.badata.protobuf.converter.type;
+package net.badata.protobuf.converter.resolver;
 
-
-import java.util.Date;
+import java.lang.reflect.Field;
 
 /**
- * Converts domain {@link java.util.Date Date} field value to protobuf {@link java.lang.Long Long} field value.
+ * Factory interface for creating field resolvers.
  *
  * @author jsjem
  */
-public class DateLongConverterImpl implements TypeConverter<Date, Long> {
+public interface FieldResolverFactory {
 
 	/**
-	 * {@inheritDoc}
+	 * Create field resolver.
+	 *
+	 * @param field Domain class field.
+	 * @return instance of {@link net.badata.protobuf.converter.resolver.FieldResolver FieldResolver}
 	 */
-	@Override
-	public Date toDomainValue(final Object instance) {
-		return new Date((Long) instance);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Long toProtobufValue(final Object instance) {
-		return ((Date) instance).getTime();
-	}
+	FieldResolver createResolver(final Field field);
 }

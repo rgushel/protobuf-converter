@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2016  BAData Creative Studio
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package net.badata.protobuf.converter;
 
 import com.google.protobuf.Message;
@@ -8,8 +25,11 @@ import net.badata.protobuf.converter.exception.TypeRelationException;
 import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.mapping.Mapper;
 import net.badata.protobuf.converter.mapping.MappingResult;
+import net.badata.protobuf.converter.resolver.FieldResolver;
+import net.badata.protobuf.converter.resolver.FieldResolverFactory;
 import net.badata.protobuf.converter.utils.AnnotationUtils;
 import net.badata.protobuf.converter.utils.FieldUtils;
+import net.badata.protobuf.converter.utils.MessageUtils;
 import net.badata.protobuf.converter.writer.DomainWriter;
 import net.badata.protobuf.converter.writer.ProtobufWriter;
 
@@ -54,9 +74,9 @@ public final class Converter {
 	 * @param fieldsIgnore Map of fields that has to be ignored by this converter instance while converting
 	 *                     objects.
 	 */
-	protected Converter(final FieldsIgnore fieldsIgnore) {
+	private Converter(final FieldsIgnore fieldsIgnore) {
 		if (fieldsIgnore == null) {
-			throw new IllegalArgumentException("ignoredFieldsMap can't be null.");
+			throw new IllegalArgumentException("fieldsIgnore can't be null.");
 		}
 		this.fieldsIgnore = fieldsIgnore;
 	}
@@ -99,10 +119,10 @@ public final class Converter {
 		if (protobuf == null) {
 			return null;
 		}
-		testDataBinding(domainClass, protobuf.getClass());
+		T domain = createDomain(domainClass);
+		ProtoClass protoClass = testDataBinding(domain.getClass(), protobuf.getClass());
 		try {
-			T domain = createDomain(domainClass);
-			fillDomain(domain, protobuf);
+			fillDomain(domain, protobuf, protoClass);
 			return domain;
 		} catch (MappingException e) {
 			throw new ConverterException("Field mapping error", e);
@@ -111,10 +131,12 @@ public final class Converter {
 		}
 	}
 
-	private void testDataBinding(final Class<?> domainClass, final Class<? extends Message> protobufClass) {
-		if (!AnnotationUtils.extractMessageType(domainClass).isAssignableFrom(protobufClass)) {
+	private ProtoClass testDataBinding(final Class<?> domainClass, final Class<? extends Message> protobufClass) {
+		ProtoClass protoClassAnnotation = AnnotationUtils.findProtoClass(domainClass, protobufClass);
+		if (protoClassAnnotation == null) {
 			throw new ConverterException(new TypeRelationException(domainClass, protobufClass));
 		}
+		return protoClassAnnotation;
 	}
 
 	private <T> T createDomain(final Class<T> domainClass) {
@@ -127,24 +149,29 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message> void fillDomain(final Object domain, final E protobuf) throws MappingException,
-			WriteException {
+	private <E extends Message> void fillDomain(final Object domain, final E protobuf,
+			final ProtoClass protoClassAnnotation) throws MappingException, WriteException {
 		Class<?> domainClass = domain.getClass();
-		Mapper fieldMapper = AnnotationUtils.createMapper(domainClass.getAnnotation(ProtoClass.class));
+		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
+		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
 		for (Field field : domainClass.getDeclaredFields()) {
 			if (fieldsIgnore.ignored(field)) {
 				continue;
 			}
-			fillDomainField(field, fieldMapper.mapToDomainField(field, protobuf, domain));
+			FieldResolver fieldResolver = fieldFactory.createResolver(field);
+			fillDomainField(fieldResolver, fieldMapper.mapToDomainField(fieldResolver, protobuf, domain));
 		}
 	}
 
-	private void fillDomainField(final Field field, final MappingResult mappingResult) throws WriteException {
+	private void fillDomainField(final FieldResolver fieldResolver, final MappingResult mappingResult)
+			throws WriteException {
 		DomainWriter fieldWriter = new DomainWriter(mappingResult.getDestination());
 		Object mappedValue = mappingResult.getValue();
+		Field field = fieldResolver.getField();
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
-				fieldWriter.write(field, create(fieldsIgnore).toDomain(field.getType(), (Message) mappedValue));
+				fieldWriter.write(fieldResolver, createNestedConverter().toDomain(field.getType(), (Message)
+						mappedValue));
 				break;
 			case COLLECTION_MAPPING:
 				Class<?> collectionType = FieldUtils.extractCollectionType(field);
@@ -153,12 +180,16 @@ public final class Converter {
 				}
 			case MAPPED:
 			default:
-				fieldWriter.write(field, mappedValue);
+				fieldWriter.write(fieldResolver, mappedValue);
 		}
 	}
 
+	private Converter createNestedConverter() {
+		return create(fieldsIgnore);
+	}
+
 	private <T> List<T> createDomainValueList(final Class<T> type, final Object protobufCollection) {
-		return create(fieldsIgnore).toDomain(type, (List<? extends Message>) protobufCollection);
+		return createNestedConverter().toDomain(type, (List<? extends Message>) protobufCollection);
 	}
 
 	/**
@@ -182,7 +213,7 @@ public final class Converter {
 		for (T domain : domainCollection) {
 			protobufCollection.add(toProtobuf(protobufClass, domain));
 		}
-		return (K)protobufCollection;
+		return (K) protobufCollection;
 	}
 
 	/**
@@ -198,10 +229,10 @@ public final class Converter {
 		if (domain == null) {
 			return null;
 		}
-		testDataBinding(domain.getClass(), protobufClass);
+		E.Builder protobuf = createProtobuf(protobufClass);
+		ProtoClass protoClass = testDataBinding(domain.getClass(), protobufClass);
 		try {
-			E.Builder protobuf = createProtobuf(protobufClass);
-			fillProtobuf(protobuf, domain);
+			fillProtobuf(protobuf, domain, protoClass);
 			return (E) protobuf.build();
 		} catch (MappingException e) {
 			throw new ConverterException("Field mapping error", e);
@@ -222,42 +253,48 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message.Builder> void fillProtobuf(final E protobuf, final Object domain) throws
-			MappingException, WriteException {
+	private <E extends Message.Builder> void fillProtobuf(final E protobuf, final Object domain,
+			final ProtoClass protoClassAnnotation) throws MappingException, WriteException {
 		Class<?> domainClass = domain.getClass();
-		Mapper fieldMapper = AnnotationUtils.createMapper(domainClass.getAnnotation(ProtoClass.class));
+		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
+		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
 		for (Field field : domainClass.getDeclaredFields()) {
 			if (fieldsIgnore.ignored(field)) {
 				continue;
 			}
-			fillProtobufField(field, fieldMapper.mapToProtobufField(field, domain, protobuf));
+			FieldResolver fieldResolver = fieldFactory.createResolver(field);
+			fillProtobufField(fieldResolver, fieldMapper.mapToProtobufField(fieldResolver, domain, protobuf));
 		}
 	}
 
-	private void fillProtobufField(final Field field, final MappingResult mappingResult) throws WriteException {
+	private void fillProtobufField(final FieldResolver fieldResolver, final MappingResult mappingResult)
+			throws WriteException {
 		ProtobufWriter fieldWriter = new ProtobufWriter((Message.Builder) mappingResult.getDestination());
 		Object mappedValue = mappingResult.getValue();
+		Field field = fieldResolver.getField();
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
-				Class<? extends Message> protobufClass = AnnotationUtils.extractMessageType(field.getType());
-				fieldWriter.write(field, create(fieldsIgnore).toProtobuf(protobufClass, mappedValue));
+				Class<? extends Message> protobufClass = MessageUtils
+						.getMessageType(mappingResult.getDestination(),
+								FieldUtils.createProtobufGetterName(fieldResolver));
+				fieldWriter.write(fieldResolver, createNestedConverter().toProtobuf(protobufClass, mappedValue));
 				break;
 			case COLLECTION_MAPPING:
 				Class<?> collectionType = FieldUtils.extractCollectionType(field);
 				if (FieldUtils.isComplexType(collectionType)) {
-					Class<? extends Message> protobufCollectionClass = AnnotationUtils.extractMessageType(
-							collectionType);
-					mappedValue = createProtobufValueList(protobufCollectionClass, (Collection)mappedValue);
+					Class<? extends Message> protobufCollectionClass = MessageUtils.getMessageCollectionType(
+							mappingResult.getDestination(), FieldUtils.createProtobufGetterName(fieldResolver));
+					mappedValue = createProtobufValueList(protobufCollectionClass, (Collection) mappedValue);
 				}
 			case MAPPED:
 			default:
-				fieldWriter.write(field, mappedValue);
+				fieldWriter.write(fieldResolver, mappedValue);
 		}
 	}
 
 	private <E extends Message> Collection<?> createProtobufValueList(final Class<E> type, final Collection<?>
 			domainCollection) {
-		return create(fieldsIgnore).toProtobuf(domainCollection.getClass(), type, domainCollection);
+		return createNestedConverter().toProtobuf(domainCollection.getClass(), type, domainCollection);
 	}
 
 }

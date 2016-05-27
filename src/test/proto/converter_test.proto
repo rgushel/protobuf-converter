@@ -40,3 +40,7 @@ message ConverterTest {
 	repeated PrimitiveTest complexSetValue = 12;
 }
 
+message MultiMappingTest {
+	int32 intValue = 1;
+	int64 longValueChanged = 2;
+}

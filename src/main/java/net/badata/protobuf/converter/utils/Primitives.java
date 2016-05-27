@@ -72,6 +72,7 @@ public final class Primitives {
 	 * void}). Note that a simpler way to test whether a {@code Class} instance is a member of this
 	 * set is to call {@link Class#isPrimitive}.
 	 *
+	 * @return class set
 	 * @since 3.0
 	 */
 	public static Set<Class<?>> allPrimitiveTypes() {
@@ -81,6 +82,7 @@ public final class Primitives {
 	/**
 	 * Returns an immutable set of all nine primitive-wrapper types (including {@link Void}).
 	 *
+	 * @return class set
 	 * @since 3.0
 	 */
 	public static Set<Class<?>> allWrapperTypes() {
@@ -91,6 +93,8 @@ public final class Primitives {
 	 * Returns {@code true} if {@code type} is one of the nine primitive-wrapper types, such as
 	 * {@link Integer}.
 	 *
+	 * @param type class
+	 * @return true if wrapped type
 	 * @see Class#isPrimitive
 	 */
 	public static boolean isWrapperType(Class<?> type) {
@@ -100,12 +104,15 @@ public final class Primitives {
 	/**
 	 * Returns the corresponding wrapper type of {@code type} if it is a primitive type; otherwise
 	 * returns {@code type} itself. Idempotent.
-	 *
 	 * <pre>
 	 *     wrap(int.class) == Integer.class
 	 *     wrap(Integer.class) == Integer.class
 	 *     wrap(String.class) == String.class
 	 * </pre>
+	 *
+	 * @param type type
+	 * @param <T>  class
+	 * @return itself.
 	 */
 	public static <T> Class<T> wrap(Class<T> type) {
 
@@ -118,12 +125,15 @@ public final class Primitives {
 	/**
 	 * Returns the corresponding primitive type of {@code type} if it is a wrapper type; otherwise
 	 * returns {@code type} itself. Idempotent.
-	 *
 	 * <pre>
 	 *     unwrap(Integer.class) == int.class
 	 *     unwrap(int.class) == int.class
 	 *     unwrap(String.class) == String.class
 	 * </pre>
+	 *
+	 * @param type type
+	 * @param <T>  class
+	 * @return itself.
 	 */
 	public static <T> Class<T> unwrap(Class<T> type) {
 

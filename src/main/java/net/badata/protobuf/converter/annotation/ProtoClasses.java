@@ -15,31 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package net.badata.protobuf.converter.type;
+package net.badata.protobuf.converter.annotation;
 
-
-import java.util.Date;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Converts domain {@link java.util.Date Date} field value to protobuf {@link java.lang.Long Long} field value.
+ * Annotation that marks domain class that may be converted to Protobuf message. This annotation may contain several
+ * {@link net.badata.protobuf.converter.annotation.ProtoClass ProtoClass} annotations.
  *
  * @author jsjem
  */
-public class DateLongConverterImpl implements TypeConverter<Date, Long> {
+@Target(value = ElementType.TYPE)
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface ProtoClasses {
 
 	/**
-	 * {@inheritDoc}
+	 * Retrieve array of possible {@code ProtoClass}es for domain.
+	 *
+	 * @return Array of {@link net.badata.protobuf.converter.annotation.ProtoClass ProtoClass}.
 	 */
-	@Override
-	public Date toDomainValue(final Object instance) {
-		return new Date((Long) instance);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Long toProtobufValue(final Object instance) {
-		return ((Date) instance).getTime();
-	}
+	ProtoClass[] value();
 }

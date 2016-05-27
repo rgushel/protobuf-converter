@@ -20,6 +20,7 @@ public class ConverterTest {
 
 	private ConverterDomain.Test testDomain;
 	private ConverterProto.ConverterTest testProtobuf;
+	private ConverterProto.MultiMappingTest testMultiProtobuf;
 	private FieldsIgnore fieldsIgnore;
 
 	@Before
@@ -54,6 +55,10 @@ public class ConverterTest {
 				.addStringListValue("10")
 				.addComplexListValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001))
 				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
+				.build();
+		testMultiProtobuf = ConverterProto.MultiMappingTest.newBuilder()
+				.setIntValue(99)
+				.setLongValueChanged(100L)
 				.build();
 	}
 
@@ -99,11 +104,6 @@ public class ConverterTest {
 		fieldsIgnore.add(ConverterDomain.Test.class, "boolValue");
 	}
 
-
-	@Test
-	public void testDomainProtobufRelation() {
-
-	}
 
 	@Test
 	public void testProtobufToDomain() {
@@ -214,6 +214,24 @@ public class ConverterTest {
 		Assert.assertFalse(result.hasPrimitiveValue());
 		Assert.assertEquals("", result.getFieldConversionValue().getEnumString());
 		Assert.assertTrue(result.getComplexListValueList().isEmpty());
+	}
+
+	@Test
+	public void testMultiMapping() {
+		Converter converter = Converter.create(new FieldsIgnore());
+		ConverterProto.MultiMappingTest protobufResult = converter.toProtobuf(ConverterProto.MultiMappingTest.class,
+				testDomain);
+
+		Assert.assertNotNull(protobufResult);
+		Assert.assertEquals(testDomain.getIntValue(), (Object) protobufResult.getIntValue());
+		Assert.assertEquals(testDomain.getLongValue(), (Object) protobufResult.getLongValueChanged());
+
+		ConverterDomain.Test domainResult = converter.toDomain(ConverterDomain.Test.class, protobufResult);
+
+		Assert.assertNotNull(domainResult);
+		Assert.assertEquals((Object) protobufResult.getIntValue(), domainResult.getIntValue());
+		Assert.assertEquals((Object) protobufResult.getLongValueChanged(), domainResult.getLongValue());
+		Assert.assertNull(domainResult.getDoubleValue());
 	}
 
 }

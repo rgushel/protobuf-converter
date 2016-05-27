@@ -1,8 +1,8 @@
 package net.badata.protobuf.converter.domain;
 
-import net.badata.protobuf.converter.proto.MappingProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
+import net.badata.protobuf.converter.proto.MappingProto;
 
 import java.util.List;
 

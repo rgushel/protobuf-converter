@@ -1,10 +1,14 @@
 package net.badata.protobuf.converter;
 
 import net.badata.protobuf.converter.domain.MappingDomain;
-import net.badata.protobuf.converter.proto.MappingProto;
 import net.badata.protobuf.converter.exception.MappingException;
+import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
 import net.badata.protobuf.converter.mapping.MappingResult;
+import net.badata.protobuf.converter.proto.MappingProto;
+import net.badata.protobuf.converter.resolver.AnnotatedFieldResolverFactoryImpl;
+import net.badata.protobuf.converter.resolver.FieldResolver;
+import net.badata.protobuf.converter.resolver.FieldResolverFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import static net.badata.protobuf.converter.mapping.MappingResult.Result;
@@ -23,6 +26,7 @@ import static net.badata.protobuf.converter.mapping.MappingResult.Result;
 public class DefaultMapperTest {
 
 	private DefaultMapperImpl mapper;
+	private FieldResolverFactory fieldResolverFactory;
 	private MappingDomain.Test testDomain;
 	private MappingDomain.InaccessibleTest inaccessibleTestDomain;
 	private MappingDomain.PrimitiveTest primitiveTestDomain;
@@ -34,6 +38,7 @@ public class DefaultMapperTest {
 	@Before
 	public void setUp() throws Exception {
 		mapper = new DefaultMapperImpl();
+		fieldResolverFactory = new AnnotatedFieldResolverFactoryImpl();
 		createTestProtobuf();
 		createTestDomain();
 		createPrimitiveTestDomain();
@@ -110,11 +115,13 @@ public class DefaultMapperTest {
 
 	}
 
-	private Field findDomainField(final String fieldName) {
+	private FieldResolver findDomainField(final String fieldName) {
 		try {
-			return MappingDomain.Test.class.getDeclaredField(fieldName);
+			return fieldResolverFactory.createResolver(MappingDomain.Test.class.getDeclaredField(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
+		} catch (WriteException e) {
+			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 
@@ -217,11 +224,13 @@ public class DefaultMapperTest {
 
 	}
 
-	private Field findPrimitiveField(final String fieldName) {
+	private FieldResolver findPrimitiveField(final String fieldName) {
 		try {
-			return MappingDomain.PrimitiveTest.class.getDeclaredField(fieldName);
+			return fieldResolverFactory.createResolver(MappingDomain.PrimitiveTest.class.getDeclaredField(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
+		} catch (WriteException e) {
+			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 
@@ -233,11 +242,14 @@ public class DefaultMapperTest {
 	}
 
 
-	private Field findInaccessibleField(final String fieldName) {
+	private FieldResolver findInaccessibleField(final String fieldName) {
 		try {
-			return MappingDomain.InaccessibleTest.class.getDeclaredField(fieldName);
+			return fieldResolverFactory.createResolver(MappingDomain.InaccessibleTest.class.getDeclaredField
+					(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
+		} catch (WriteException e) {
+			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 

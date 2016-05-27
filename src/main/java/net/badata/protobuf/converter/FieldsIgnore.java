@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2016  BAData Creative Studio
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package net.badata.protobuf.converter;
 
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -91,13 +108,13 @@ public class FieldsIgnore {
 	}
 
 	/**
-	 * Check whether field has to be ignored. A
+	 * Check whether field has to be ignored.
 	 *
 	 * @param field Field instance for test.
 	 * @return true if field class or field name in the ignore or field is not annotated by
 	 * {@link net.badata.protobuf.converter.annotation.ProtoField ProtoField}.
 	 */
-	public boolean ignored(final Field field) {
+	protected boolean ignored(final Field field) {
 		return !field.isAnnotationPresent(ProtoField.class) || isClassIgnored(field) || isFieldIgnored(field);
 	}
 

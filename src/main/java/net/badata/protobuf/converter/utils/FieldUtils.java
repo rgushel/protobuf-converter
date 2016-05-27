@@ -1,7 +1,24 @@
+/*
+ * Copyright (C) 2016  BAData Creative Studio
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package net.badata.protobuf.converter.utils;
 
 import net.badata.protobuf.converter.annotation.ProtoClass;
-import net.badata.protobuf.converter.annotation.ProtoField;
+import net.badata.protobuf.converter.resolver.FieldResolver;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -54,73 +71,62 @@ public final class FieldUtils {
 	/**
 	 * Create protobuf getter name for domain field.
 	 *
-	 * @param field Domain object field.
+	 * @param fieldResolver Domain object field resolver.
 	 * @return Protobuf field getter name.
 	 */
-	public static String createProtobufGetterName(final Field field) {
-		String getterName = StringUtils.createMethodName(GETTER_PREFIX, getProtobufFieldName(field));
-		if (isCollectionType(field)) {
+	public static String createProtobufGetterName(final FieldResolver fieldResolver) {
+		String getterName = StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getProtobufName());
+		if (isCollectionType(fieldResolver.getField())) {
 			return getterName + PROTOBUF_LIST_GETTER_POSTFIX;
 		}
 		return getterName;
 	}
 
 	/**
-	 * Find protobuf field name related to the domain field.
-	 *
-	 * @param field Domain object field.
-	 * @return Protobuf field name.
-	 */
-	public static String getProtobufFieldName(final Field field) {
-		String protobufFieldName = field.getAnnotation(ProtoField.class).name();
-		return "".equals(protobufFieldName) ? field.getName() : protobufFieldName;
-	}
-
-	/**
 	 * Create protobuf setter name for domain field.
 	 *
-	 * @param field Domain object field.
+	 * @param fieldResolver Domain object field resolver.
 	 * @return Protobuf field setter name.
 	 */
-	public static String createProtobufSetterName(final Field field) {
-		if (isCollectionType(field)) {
-			return StringUtils.createMethodName(PROTOBUF_LIST_SETTER_PREFIX, getProtobufFieldName(field));
+	public static String createProtobufSetterName(final FieldResolver fieldResolver) {
+		if (isCollectionType(fieldResolver.getField())) {
+			return StringUtils.createMethodName(PROTOBUF_LIST_SETTER_PREFIX, fieldResolver.getProtobufName());
 		}
-		return StringUtils.createMethodName(SETTER_PREFIX, getProtobufFieldName(field));
+		return StringUtils.createMethodName(SETTER_PREFIX, fieldResolver.getProtobufName());
 	}
 
 	/**
 	 * Create protobuf builder getter name for complex domain field.
 	 *
-	 * @param field Domain object field.
+	 * @param fieldResolver Domain object field resolver.
 	 * @return Protobuf field builder getter name.
 	 */
-	public static String createProtobufBuilderName(final Field field) {
-		String getterName = StringUtils.createMethodName(GETTER_PREFIX, getProtobufFieldName(field));
+	public static String createProtobufBuilderName(final FieldResolver fieldResolver) {
+		String getterName = StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getProtobufName());
 		return getterName + PROTOBUF_NESTED_BUILDER_POSTFIX;
 	}
 
 	/**
 	 * Create domain field getter name.
 	 *
-	 * @param field Domain object field.
+	 * @param fieldResolver Domain object field resolver.
 	 * @return Domain field getter name.
 	 */
-	public static String createDomainGetterName(final Field field) {
-		if (field.getType() == boolean.class) {
-			return StringUtils.createMethodName(BOOLEAN_GETTER_PREFIX, field.getName());
+	public static String createDomainGetterName(final FieldResolver fieldResolver) {
+		if (fieldResolver.getField().getType() == boolean.class) {
+			return StringUtils.createMethodName(BOOLEAN_GETTER_PREFIX, fieldResolver.getDomainName());
 		}
-		return StringUtils.createMethodName(GETTER_PREFIX, field.getName());
+		return StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getDomainName());
 	}
 
 	/**
 	 * Create domain field setter name.
 	 *
-	 * @param field Domain object field.
+	 * @param fieldResolver Domain object field resolver.
 	 * @return Domain field setter name.
 	 */
-	public static String createDomainSetterName(final Field field) {
-		return StringUtils.createMethodName(SETTER_PREFIX, field.getName());
+	public static String createDomainSetterName(final FieldResolver fieldResolver) {
+		return StringUtils.createMethodName(SETTER_PREFIX, fieldResolver.getDomainName());
 	}
 
 	/**
