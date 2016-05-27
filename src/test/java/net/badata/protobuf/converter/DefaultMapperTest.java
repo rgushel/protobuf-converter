@@ -2,7 +2,6 @@ package net.badata.protobuf.converter;
 
 import net.badata.protobuf.converter.domain.MappingDomain;
 import net.badata.protobuf.converter.exception.MappingException;
-import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
 import net.badata.protobuf.converter.mapping.MappingResult;
 import net.badata.protobuf.converter.proto.MappingProto;
@@ -120,8 +119,6 @@ public class DefaultMapperTest {
 			return fieldResolverFactory.createResolver(MappingDomain.Test.class.getDeclaredField(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
-		} catch (WriteException e) {
-			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 
@@ -229,8 +226,6 @@ public class DefaultMapperTest {
 			return fieldResolverFactory.createResolver(MappingDomain.PrimitiveTest.class.getDeclaredField(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
-		} catch (WriteException e) {
-			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 
@@ -248,8 +243,6 @@ public class DefaultMapperTest {
 					(fieldName));
 		} catch (NoSuchFieldException e) {
 			throw new IllegalArgumentException("No such field: " + fieldName, e);
-		} catch (WriteException e) {
-			throw new IllegalArgumentException("Can't create resolver: " + fieldName, e);
 		}
 	}
 
