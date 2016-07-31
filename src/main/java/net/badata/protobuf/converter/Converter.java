@@ -35,10 +35,7 @@ import net.badata.protobuf.converter.writer.ProtobufWriter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Converts data from Protobuf messages to domain model objects and vice versa.
@@ -154,7 +151,7 @@ public final class Converter {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
 		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
-		for (Field field : domainClass.getDeclaredFields()) {
+		for (Field field : getAllFields(domainClass)) {
 			if (fieldsIgnore.ignored(field)) {
 				continue;
 			}
@@ -258,13 +255,26 @@ public final class Converter {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
 		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
-		for (Field field : domainClass.getDeclaredFields()) {
+		for (Field field : getAllFields(domainClass)) {
 			if (fieldsIgnore.ignored(field)) {
 				continue;
 			}
 			FieldResolver fieldResolver = fieldFactory.createResolver(field);
 			fillProtobufField(fieldResolver, fieldMapper.mapToProtobufField(fieldResolver, domain, protobuf));
 		}
+	}
+
+	private List<Field> getAllFields(Class clazz) {
+		List<Field> fields = new ArrayList<Field>();
+
+		fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+
+		Class superClazz = clazz.getSuperclass();
+		if(superClazz != null){
+			fields.addAll( getAllFields(superClazz) );
+		}
+
+		return fields;
 	}
 
 	private void fillProtobufField(final FieldResolver fieldResolver, final MappingResult mappingResult)
