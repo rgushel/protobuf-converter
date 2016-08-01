@@ -31,6 +31,7 @@ public class EnumStringConverter<T extends Enum<T>> implements TypeConverter<T, 
 	 * {@inheritDoc}
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public T toDomainValue(Object instance) {
 		if (((String) instance).isEmpty()) {
 			return null;

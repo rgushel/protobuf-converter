@@ -35,10 +35,7 @@ import net.badata.protobuf.converter.writer.ProtobufWriter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Converts data from Protobuf messages to domain model objects and vice versa.
@@ -47,7 +44,7 @@ import java.util.List;
  */
 public final class Converter {
 
-	private final FieldsIgnore fieldsIgnore;
+	private final Configuration configuration;
 
 	/**
 	 * Create default converter.
@@ -55,7 +52,7 @@ public final class Converter {
 	 * @return Converter instance.
 	 */
 	public static Converter create() {
-		return create(new FieldsIgnore());
+		return create(Configuration.builder().build());
 	}
 
 	/**
@@ -63,22 +60,35 @@ public final class Converter {
 	 *
 	 * @param fieldsIgnore Map of fields that has to be ignored by this converter instance.
 	 * @return Converter instance.
+	 *
+	 * @deprecated use {@code create(Configuration)} instead.
 	 */
+	@Deprecated
 	public static Converter create(final FieldsIgnore fieldsIgnore) {
-		return new Converter(fieldsIgnore);
+		Configuration.Builder configurationBuilder = Configuration.builder();
+		configurationBuilder.setIgnoredFields(fieldsIgnore);
+		return new Converter(configurationBuilder.build());
+	}
+
+	/**
+	 * Create configured converter.
+	 *
+	 * @param configuration Parameters for conversion.
+	 */
+	public static Converter create(final Configuration configuration) {
+		return new Converter(configuration);
 	}
 
 	/**
 	 * Create object that performing conversion from protobuf object to domain model object and vice versa.
 	 *
-	 * @param fieldsIgnore Map of fields that has to be ignored by this converter instance while converting
-	 *                     objects.
+	 * @param configuration Parameters for conversion.
 	 */
-	private Converter(final FieldsIgnore fieldsIgnore) {
-		if (fieldsIgnore == null) {
-			throw new IllegalArgumentException("fieldsIgnore can't be null.");
+	private Converter(final Configuration configuration) {
+		if (configuration == null) {
+			throw new IllegalArgumentException("Argument configuration can't be null");
 		}
-		this.fieldsIgnore = fieldsIgnore;
+		this.configuration = configuration;
 	}
 
 	/**
@@ -90,12 +100,14 @@ public final class Converter {
 	 * @param <E>                Protobuf dto type.
 	 * @return Domain objects list filled with data stored in the Protobuf dto list.
 	 */
+	@SuppressWarnings("unchecked")
 	public <T, E extends Message> List<T> toDomain(final Class<T> domainClass, final Collection<E>
 			protobufCollection) {
 		return toDomain(List.class, domainClass, protobufCollection);
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T, E extends Message, K extends Collection> K toDomain(final Class<K> collectionClass,
 			final Class<T> domainClass, final Collection<E> protobufCollection) {
 		Collection<T> domainList = List.class.isAssignableFrom(collectionClass) ? new ArrayList<T>() : new
@@ -154,13 +166,27 @@ public final class Converter {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
 		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
-		for (Field field : domainClass.getDeclaredFields()) {
-			if (fieldsIgnore.ignored(field)) {
+		for (Field field : getDomainFields(domainClass)) {
+			if (configuration.getIgnoredFields().ignored(field)) {
 				continue;
 			}
 			FieldResolver fieldResolver = fieldFactory.createResolver(field);
 			fillDomainField(fieldResolver, fieldMapper.mapToDomainField(fieldResolver, protobuf, domain));
 		}
+	}
+
+	private List<Field> getDomainFields(final Class clazz) {
+		List<Field> fields = new ArrayList<Field>();
+
+		fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+
+		if(configuration.withInheritedFields()) {
+			Class superClazz = clazz.getSuperclass();
+			if (superClazz != null) {
+				fields.addAll(getDomainFields(superClazz));
+			}
+		}
+		return fields;
 	}
 
 	private void fillDomainField(final FieldResolver fieldResolver, final MappingResult mappingResult)
@@ -185,9 +211,10 @@ public final class Converter {
 	}
 
 	private Converter createNestedConverter() {
-		return create(fieldsIgnore);
+		return create(configuration);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> List<T> createDomainValueList(final Class<T> type, final Object protobufCollection) {
 		return createNestedConverter().toDomain(type, (List<? extends Message>) protobufCollection);
 	}
@@ -201,11 +228,13 @@ public final class Converter {
 	 * @param <E>              Protobuf dto type.
 	 * @return Protobuf dto list filled with data stored in the domain object list.
 	 */
+	@SuppressWarnings("unchecked")
 	public <T, E extends Message> List<E> toProtobuf(final Class<E> protobufClass, final Collection<T>
 			domainCollection) {
 		return toProtobuf(List.class, protobufClass, domainCollection);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T, E extends Message, K extends Collection> K toProtobuf(final Class<K> collectionClass,
 			final Class<E> protobufClass, final Collection<T> domainCollection) {
 		Collection<E> protobufCollection = List.class.isAssignableFrom(collectionClass) ? new ArrayList<E>() : new
@@ -225,6 +254,7 @@ public final class Converter {
 	 * @param <E>           Protobuf dto type.
 	 * @return Protobuf dto filled with data stored in the domain object.
 	 */
+	@SuppressWarnings("unchecked")
 	public <T, E extends Message> E toProtobuf(final Class<E> protobufClass, final T domain) {
 		if (domain == null) {
 			return null;
@@ -258,8 +288,8 @@ public final class Converter {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
 		FieldResolverFactory fieldFactory = AnnotationUtils.createFieldFactory(protoClassAnnotation);
-		for (Field field : domainClass.getDeclaredFields()) {
-			if (fieldsIgnore.ignored(field)) {
+		for (Field field : getDomainFields(domainClass)) {
+			if (configuration.getIgnoredFields().ignored(field)) {
 				continue;
 			}
 			FieldResolver fieldResolver = fieldFactory.createResolver(field);
