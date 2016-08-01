@@ -20,7 +20,7 @@ public class ConverterTest {
 
 	private ConverterDomain.Test testDomain;
 	private ConverterProto.ConverterTest testProtobuf;
-	private ConverterProto.MultiMappingTest testMultiProtobuf;
+
 	private FieldsIgnore fieldsIgnore;
 
 	@Before
@@ -55,10 +55,6 @@ public class ConverterTest {
 				.addStringListValue("10")
 				.addComplexListValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001))
 				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
-				.build();
-		testMultiProtobuf = ConverterProto.MultiMappingTest.newBuilder()
-				.setIntValue(99)
-				.setLongValueChanged(100L)
 				.build();
 	}
 
@@ -152,7 +148,8 @@ public class ConverterTest {
 
 	@Test
 	public void testFieldIgnoreProtobufToDomain() {
-		ConverterDomain.Test result = Converter.create(fieldsIgnore)
+		Configuration configuration = Configuration.builder().addIgnoredFields(fieldsIgnore).build();
+		ConverterDomain.Test result = Converter.create(configuration)
 				.toDomain(ConverterDomain.Test.class, testProtobuf);
 
 		Assert.assertNotNull(result);
@@ -205,7 +202,8 @@ public class ConverterTest {
 
 	@Test
 	public void testFieldIgnoreDomainToProtobuf() {
-		ConverterProto.ConverterTest result = Converter.create(fieldsIgnore)
+		Configuration configuration = Configuration.builder().addIgnoredFields(fieldsIgnore).build();
+		ConverterProto.ConverterTest result = Converter.create(configuration)
 				.toProtobuf(ConverterProto.ConverterTest.class, testDomain);
 
 		Assert.assertNotNull(result);
@@ -218,7 +216,7 @@ public class ConverterTest {
 
 	@Test
 	public void testMultiMapping() {
-		Converter converter = Converter.create(new FieldsIgnore());
+		Converter converter = Converter.create();
 		ConverterProto.MultiMappingTest protobufResult = converter.toProtobuf(ConverterProto.MultiMappingTest.class,
 				testDomain);
 

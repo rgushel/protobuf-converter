@@ -43,7 +43,7 @@ public class FieldsIgnore {
 	 * ignoreClass or field owner class is ignoreClass.
 	 *
 	 * @param ignoredClass Class for ignore.
-	 * @return Instance of IgnoredFieldsMap.
+	 * @return Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
 	 */
 	public FieldsIgnore add(final Class<?> ignoredClass) {
 		ignoreMapping.put(ignoredClass, Collections.<String>emptySet());
@@ -55,7 +55,7 @@ public class FieldsIgnore {
 	 *
 	 * @param ignoredClass Owner of the ignored field.
 	 * @param fields       Fields for ignore.
-	 * @return Instance of IgnoredFieldsMap.
+	 * @return Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
 	 */
 	public FieldsIgnore add(final Class<?> ignoredClass, final String... fields) {
 		if (fields != null) {
@@ -70,18 +70,29 @@ public class FieldsIgnore {
 	}
 
 	/**
+	 * Add all fields from another {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore} instance.
+	 *
+	 * @param ignoredFields Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
+	 * @return
+	 */
+	public FieldsIgnore addAll(final FieldsIgnore ignoredFields) {
+		ignoreMapping.putAll(ignoredFields.ignoreMapping);
+		return this;
+	}
+
+	/**
 	 * Remove class field from ignore map.
 	 *
 	 * @param ignoredClass Owner of the ignored field.
 	 * @param fields       Fields for ignore.
-	 * @return Instance of IgnoredFieldsMap.
+	 * @return Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
 	 */
 	public FieldsIgnore remove(final Class<?> ignoredClass, final String... fields) {
 		if (fields != null) {
 			Set<String> ignoredFields = ignoreMapping.get(ignoredClass);
 			if (ignoredFields != null && !ignoredFields.isEmpty()) {
 				ignoredFields.removeAll(asList(fields));
-				if(ignoredFields.isEmpty()) {
+				if (ignoredFields.isEmpty()) {
 					ignoreMapping.remove(ignoredClass);
 				}
 			}
@@ -93,7 +104,7 @@ public class FieldsIgnore {
 	 * Remove class from ignore map. Class and all its fields will not be ignored any more.
 	 *
 	 * @param ignoredClass Class to remove from ignore map.
-	 * @return Instance of IgnoredFieldsMap.
+	 * @return Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
 	 */
 	public FieldsIgnore remove(final Class<?> ignoredClass) {
 		ignoreMapping.remove(ignoredClass);
@@ -133,5 +144,50 @@ public class FieldsIgnore {
 					|| ignoredFields.contains(annotation.name());
 		}
 		return false;
+	}
+
+
+	/**
+	 * Create copy of the instance.
+	 *
+	 * @return new instance of the {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore} that is identical
+	 * with this instance.
+	 */
+	public FieldsIgnore copy() {
+		FieldsIgnore copy = new FieldsIgnore();
+		copy.ignoreMapping.putAll(ignoreMapping);
+		return copy;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+
+		FieldsIgnore that = (FieldsIgnore) obj;
+
+		if (!ignoreMapping.equals(that.ignoreMapping)) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 31 * ignoreMapping.hashCode() + result;
+		return result;
 	}
 }

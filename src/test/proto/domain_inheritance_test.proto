@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package net.badata.protobuf.converter.proto;
+
+option java_package = "net.badata.protobuf.converter.proto";
+option java_outer_classname = "DomainInheritanceProto";
+
+message Test{
+    int32 inheritedInt = 1;
+    float inheritedFloat = 2;
+    int64 ownLong = 3;
+    double ownDouble = 4;
+}
