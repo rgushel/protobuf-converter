@@ -214,22 +214,4 @@ public class ConverterTest {
 		Assert.assertTrue(result.getComplexListValueList().isEmpty());
 	}
 
-	@Test
-	public void testMultiMapping() {
-		Converter converter = Converter.create();
-		ConverterProto.MultiMappingTest protobufResult = converter.toProtobuf(ConverterProto.MultiMappingTest.class,
-				testDomain);
-
-		Assert.assertNotNull(protobufResult);
-		Assert.assertEquals(testDomain.getIntValue(), (Object) protobufResult.getIntValue());
-		Assert.assertEquals(testDomain.getLongValue(), (Object) protobufResult.getLongValueChanged());
-
-		ConverterDomain.Test domainResult = converter.toDomain(ConverterDomain.Test.class, protobufResult);
-
-		Assert.assertNotNull(domainResult);
-		Assert.assertEquals((Object) protobufResult.getIntValue(), domainResult.getIntValue());
-		Assert.assertEquals((Object) protobufResult.getLongValueChanged(), domainResult.getLongValue());
-		Assert.assertNull(domainResult.getDoubleValue());
-	}
-
 }

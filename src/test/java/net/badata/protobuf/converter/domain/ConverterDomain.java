@@ -2,7 +2,6 @@ package net.badata.protobuf.converter.domain;
 
 import com.google.protobuf.Message;
 import net.badata.protobuf.converter.annotation.ProtoClass;
-import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.exception.MappingException;
 import net.badata.protobuf.converter.inspection.DefaultValue;
@@ -27,9 +26,7 @@ import java.util.Set;
  */
 public class ConverterDomain {
 
-	@ProtoClasses({@ProtoClass(ConverterProto.ConverterTest.class),
-					@ProtoClass(value = ConverterProto.MultiMappingTest.class, mapper = MultiMappingMapperImpl.class,
-								fieldFactory = FieldResolverFactoryImpl.class)})
+	@ProtoClass(ConverterProto.ConverterTest.class)
 	public static class Test {
 
 		@ProtoField

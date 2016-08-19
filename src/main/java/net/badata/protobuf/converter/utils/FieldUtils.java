@@ -18,6 +18,7 @@
 package net.badata.protobuf.converter.utils;
 
 import net.badata.protobuf.converter.annotation.ProtoClass;
+import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.resolver.FieldResolver;
 
 import java.lang.reflect.Field;
@@ -42,7 +43,8 @@ public final class FieldUtils {
 	 * Check whether field has own mapper.
 	 *
 	 * @param field Testing field.
-	 * @return true if field type has {@link net.badata.protobuf.converter.annotation.ProtoClass} annotation.
+	 * @return true if field type has {@link net.badata.protobuf.converter.annotation.ProtoClass}  or
+	 * {@link net.badata.protobuf.converter.annotation.ProtoClasses} annotation.
 	 */
 	public static boolean isComplexType(final Field field) {
 		return isComplexType(field.getType());
@@ -52,10 +54,11 @@ public final class FieldUtils {
 	 * Check whether type has own mapper.
 	 *
 	 * @param type Testing type.
-	 * @return true if field type has {@link net.badata.protobuf.converter.annotation.ProtoClass} annotation.
+	 * @return true if field type has {@link net.badata.protobuf.converter.annotation.ProtoClass} or
+	 * {@link net.badata.protobuf.converter.annotation.ProtoClasses} annotation.
 	 */
 	public static boolean isComplexType(final Class<?> type) {
-		return type.isAnnotationPresent(ProtoClass.class);
+		return type.isAnnotationPresent(ProtoClass.class) || type.isAnnotationPresent(ProtoClasses.class);
 	}
 
 	/**
