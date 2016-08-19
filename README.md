@@ -72,14 +72,16 @@ E.g.: field *password* of **User.class** has not be tansformed into **ProtobufUs
 User userDomain = new User();
 ...
 FieldsIgnore ignoredFiedls = new FieldsIgnore().add(User.class, "password");
-ProtobufUser userProto = Converter.create(ignoredFiedls).toProtobuf(ProtobufUser.class, userDomain);
+Configuration configuration = Configuration.builder().addIgnoredFields(ignoredFiedls).build();
+ProtobufUser userProto = Converter.create(configuration).toProtobuf(ProtobufUser.class, userDomain);
 ```
 Also **FieldsIgnore.class** allows to ignore single field as well as field data types. E.g.: it is possible to ignore all fields with type **java.lang.String**:
 ```java
 User userDomain = new User();
 ...
 FieldsIgnore ignoredFiedls = new FieldsIgnore().add(String.class);
-ProtobufUser userProto = Converter.create(ignoredFiedls).toProtobuf(ProtobufUser.class, userDomain);
+Configuration configuration = Configuration.builder().addIgnoredFields(ignoredFiedls).build();
+ProtobufUser userProto = Converter.create(configuration).toProtobuf(ProtobufUser.class, userDomain);
 ```
 ### Obfuscation
 Main Proguard options:
