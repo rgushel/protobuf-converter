@@ -101,4 +101,6 @@ public class MultiMappingTest {
 		Assert.assertEquals((Object) testProtobuf.getMultiMappingListValue(0).getLongValueChanged(),
 				listChild.getLongValue());
 	}
+
+
 }

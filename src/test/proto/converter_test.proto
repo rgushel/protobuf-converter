@@ -38,4 +38,5 @@ message ConverterTest {
 	repeated string stringListValue = 10;
 	repeated PrimitiveTest complexListValue = 11;
 	repeated PrimitiveTest complexSetValue = 12;
+	repeated PrimitiveTest complexNullableCollectionValue = 13;
 }

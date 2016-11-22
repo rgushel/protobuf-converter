@@ -60,7 +60,6 @@ public final class Converter {
 	 *
 	 * @param fieldsIgnore Map of fields that has to be ignored by this converter instance.
 	 * @return Converter instance.
-	 *
 	 * @deprecated use {@code create(Configuration)} instead.
 	 */
 	@Deprecated
@@ -180,7 +179,7 @@ public final class Converter {
 
 		fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
 
-		if(configuration.withInheritedFields()) {
+		if (configuration.withInheritedFields()) {
 			Class superClazz = clazz.getSuperclass();
 			if (superClazz != null) {
 				fields.addAll(getDomainFields(superClazz));
@@ -239,8 +238,10 @@ public final class Converter {
 			final Class<E> protobufClass, final Collection<T> domainCollection) {
 		Collection<E> protobufCollection = List.class.isAssignableFrom(collectionClass) ? new ArrayList<E>() : new
 				HashSet<E>();
-		for (T domain : domainCollection) {
-			protobufCollection.add(toProtobuf(protobufClass, domain));
+		if (domainCollection != null) {
+			for (T domain : domainCollection) {
+				protobufCollection.add(toProtobuf(protobufClass, domain));
+			}
 		}
 		return (K) protobufCollection;
 	}
@@ -314,7 +315,8 @@ public final class Converter {
 				if (FieldUtils.isComplexType(collectionType)) {
 					Class<? extends Message> protobufCollectionClass = MessageUtils.getMessageCollectionType(
 							mappingResult.getDestination(), FieldUtils.createProtobufGetterName(fieldResolver));
-					mappedValue = createProtobufValueList(protobufCollectionClass, (Collection) mappedValue);
+					mappedValue = createProtobufValueList(protobufCollectionClass, field.getType(),
+							(Collection) mappedValue);
 				}
 			case MAPPED:
 			default:
@@ -322,9 +324,10 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message> Collection<?> createProtobufValueList(final Class<E> type, final Collection<?>
-			domainCollection) {
-		return createNestedConverter().toProtobuf(domainCollection.getClass(), type, domainCollection);
+	private <E extends Message> Collection<?> createProtobufValueList(final Class<E> type, final Class<?>
+			domainCollectionClass, final Collection<?> domainCollection) {
+		return createNestedConverter()
+				.toProtobuf((Class<? extends Collection>) domainCollectionClass, type, domainCollection);
 	}
 
 }

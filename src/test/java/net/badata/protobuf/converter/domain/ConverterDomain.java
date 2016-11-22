@@ -53,6 +53,8 @@ public class ConverterDomain {
 		private List<PrimitiveTest> complexListValue;
 		@ProtoField(converter = SetListConverterImpl.class)
 		private Set<PrimitiveTest> complexSetValue;
+		@ProtoField
+		private List<PrimitiveTest> complexNullableCollectionValue;
 
 
 		public Long getLongValue() {
@@ -150,6 +152,14 @@ public class ConverterDomain {
 
 		public void setComplexSetValue(final Set<PrimitiveTest> complexSetValue) {
 			this.complexSetValue = complexSetValue;
+		}
+
+		public List<PrimitiveTest> getComplexNullableCollectionValue() {
+			return complexNullableCollectionValue;
+		}
+
+		public void setComplexNullableCollectionValue(final List<PrimitiveTest> complexNullableCollectionValue) {
+			this.complexNullableCollectionValue = complexNullableCollectionValue;
 		}
 	}
 

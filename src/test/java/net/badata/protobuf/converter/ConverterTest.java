@@ -84,13 +84,13 @@ public class ConverterTest {
 		testDomain.setFieldConversionValue(fieldConverterTest);
 		testDomain.setSimpleListValue(Arrays.asList("110"));
 
-
 		ConverterDomain.PrimitiveTest primitiveTestItem = new ConverterDomain.PrimitiveTest();
 		primitiveTestItem.setIntValue(-1001);
 		testDomain.setComplexListValue(Arrays.asList(primitiveTestItem));
 		ConverterDomain.PrimitiveTest primitiveTestSItem = new ConverterDomain.PrimitiveTest();
 		primitiveTestItem.setIntValue(-1002);
 		testDomain.setComplexSetValue(new HashSet<ConverterDomain.PrimitiveTest>(Arrays.asList(primitiveTestSItem)));
+		testDomain.setComplexNullableCollectionValue(null);
 	}
 
 	private void createIgnoredFieldsMap() {
@@ -144,6 +144,8 @@ public class ConverterTest {
 				result.getComplexListValue().get(0).getIntValue());
 		Assert.assertEquals(testProtobuf.getComplexSetValue(0).getIntValue(),
 				result.getComplexSetValue().iterator().next().getIntValue());
+
+		Assert.assertTrue(result.getComplexNullableCollectionValue().isEmpty());
 	}
 
 	@Test
@@ -198,6 +200,8 @@ public class ConverterTest {
 				result.getComplexListValue(0).getIntValue());
 		Assert.assertEquals(testDomain.getComplexSetValue().iterator().next().getIntValue(),
 				result.getComplexSetValue(0).getIntValue());
+
+		Assert.assertTrue(result.getComplexNullableCollectionValueList().isEmpty());
 	}
 
 	@Test
