@@ -20,9 +20,11 @@ package net.badata.protobuf.converter.utils;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.resolver.FieldResolver;
+import net.badata.protobuf.converter.type.TypeConverter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 
 /**
@@ -30,14 +32,11 @@ import java.util.Collection;
  */
 public final class FieldUtils {
 
-
 	private static final String GETTER_PREFIX = "get";
 	private static final String SETTER_PREFIX = "set";
 	private static final String BOOLEAN_GETTER_PREFIX = "is";
 	private static final String PROTOBUF_LIST_GETTER_POSTFIX = "List";
 	private static final String PROTOBUF_LIST_SETTER_PREFIX = "addAll";
-	private static final String PROTOBUF_NESTED_BUILDER_POSTFIX = "Builder";
-
 
 	/**
 	 * Check whether field has own mapper.
@@ -68,7 +67,17 @@ public final class FieldUtils {
 	 * @return true if field type implements {@link java.util.Collection}, otherwise false.
 	 */
 	public static boolean isCollectionType(final Field field) {
-		return Collection.class.isAssignableFrom(field.getType());
+		return isCollectionType(field.getType());
+	}
+
+	/**
+	 * Check whether class implements Collection interface.
+	 *
+	 * @param type Testing class.
+	 * @return true if class implements {@link java.util.Collection}, otherwise false.
+	 */
+	public static boolean isCollectionType(final Class<?> type) {
+		return Collection.class.isAssignableFrom(type);
 	}
 
 	/**
@@ -79,7 +88,7 @@ public final class FieldUtils {
 	 */
 	public static String createProtobufGetterName(final FieldResolver fieldResolver) {
 		String getterName = StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getProtobufName());
-		if (isCollectionType(fieldResolver.getField())) {
+		if (isCollectionType(fieldResolver.getProtobufType())) {
 			return getterName + PROTOBUF_LIST_GETTER_POSTFIX;
 		}
 		return getterName;
@@ -92,21 +101,10 @@ public final class FieldUtils {
 	 * @return Protobuf field setter name.
 	 */
 	public static String createProtobufSetterName(final FieldResolver fieldResolver) {
-		if (isCollectionType(fieldResolver.getField())) {
+		if (isCollectionType(fieldResolver.getProtobufType())) {
 			return StringUtils.createMethodName(PROTOBUF_LIST_SETTER_PREFIX, fieldResolver.getProtobufName());
 		}
 		return StringUtils.createMethodName(SETTER_PREFIX, fieldResolver.getProtobufName());
-	}
-
-	/**
-	 * Create protobuf builder getter name for complex domain field.
-	 *
-	 * @param fieldResolver Domain object field resolver.
-	 * @return Protobuf field builder getter name.
-	 */
-	public static String createProtobufBuilderName(final FieldResolver fieldResolver) {
-		String getterName = StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getProtobufName());
-		return getterName + PROTOBUF_NESTED_BUILDER_POSTFIX;
 	}
 
 	/**
@@ -116,7 +114,7 @@ public final class FieldUtils {
 	 * @return Domain field getter name.
 	 */
 	public static String createDomainGetterName(final FieldResolver fieldResolver) {
-		if (fieldResolver.getField().getType() == boolean.class) {
+		if (fieldResolver.getDomainType() == boolean.class) {
 			return StringUtils.createMethodName(BOOLEAN_GETTER_PREFIX, fieldResolver.getDomainName());
 		}
 		return StringUtils.createMethodName(GETTER_PREFIX, fieldResolver.getDomainName());
@@ -136,11 +134,35 @@ public final class FieldUtils {
 	 * Extract parameter type of the collection.
 	 *
 	 * @param field Field with type derived from {@link java.util.Collection}.
-	 * @return Collection parameter.
+	 * @return Collection generic type.
 	 */
 	public static Class<?> extractCollectionType(final Field field) {
-		ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
-		return (Class<?>) stringListType.getActualTypeArguments()[0];
+		ParameterizedType genericType = (ParameterizedType) field.getGenericType();
+		return (Class<?>) genericType.getActualTypeArguments()[0];
+	}
+
+	/**
+	 * Extract protobuf field type from type converter.
+	 *
+	 * @param typeConverterClass field converter type.
+	 * @param defaultType        Default protobuf field type.
+	 * @return Protobuf field type declared in the type converter class or default type when it is unable to extract
+	 * field type from converter.
+	 */
+	public static Class<?> extractProtobufFieldType(final Class<? extends TypeConverter> typeConverterClass,
+			final Class<?> defaultType) {
+		Type[] interfaceTypes = typeConverterClass.getGenericInterfaces();
+		for (Type interfaceType : interfaceTypes) {
+			ParameterizedType parameterizedType = (ParameterizedType) interfaceType;
+			if (parameterizedType.getRawType().equals(TypeConverter.class)) {
+				Type extractedType = parameterizedType.getActualTypeArguments()[1];
+				if (extractedType instanceof ParameterizedType) {
+					return (Class<?>) ((ParameterizedType) extractedType).getRawType();
+				}
+				return Object.class.equals(extractedType) ? defaultType : (Class<?>) extractedType;
+			}
+		}
+		return defaultType;
 	}
 
 	private FieldUtils() {

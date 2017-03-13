@@ -52,6 +52,20 @@ public interface FieldResolver {
 	String getProtobufName();
 
 	/**
+	 * Getter for domain class field type.
+	 *
+	 * @return String with domain field type.
+	 */
+	Class<?> getDomainType();
+
+	/**
+	 * Getter for protobuf message field type.
+	 *
+	 * @return String with protobuf field type.
+	 */
+	Class<?> getProtobufType();
+
+	/**
 	 * Getter for field type converter.
 	 *
 	 * @return instance of field type converter.

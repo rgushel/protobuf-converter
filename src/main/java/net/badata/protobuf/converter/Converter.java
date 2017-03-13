@@ -192,14 +192,13 @@ public final class Converter {
 			throws WriteException {
 		DomainWriter fieldWriter = new DomainWriter(mappingResult.getDestination());
 		Object mappedValue = mappingResult.getValue();
-		Field field = fieldResolver.getField();
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
-				fieldWriter.write(fieldResolver, createNestedConverter().toDomain(field.getType(), (Message)
-						mappedValue));
+				fieldWriter.write(fieldResolver, createNestedConverter().toDomain(fieldResolver.getDomainType(),
+						(Message) mappedValue));
 				break;
 			case COLLECTION_MAPPING:
-				Class<?> collectionType = FieldUtils.extractCollectionType(field);
+				Class<?> collectionType = FieldUtils.extractCollectionType(fieldResolver.getField());
 				if (FieldUtils.isComplexType(collectionType)) {
 					mappedValue = createDomainValueList(collectionType, mappedValue);
 				}
@@ -302,20 +301,18 @@ public final class Converter {
 			throws WriteException {
 		ProtobufWriter fieldWriter = new ProtobufWriter((Message.Builder) mappingResult.getDestination());
 		Object mappedValue = mappingResult.getValue();
-		Field field = fieldResolver.getField();
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
-				Class<? extends Message> protobufClass = MessageUtils
-						.getMessageType(mappingResult.getDestination(),
-								FieldUtils.createProtobufGetterName(fieldResolver));
+				Class<? extends Message> protobufClass = MessageUtils.getMessageType(mappingResult.getDestination(),
+						FieldUtils.createProtobufGetterName(fieldResolver));
 				fieldWriter.write(fieldResolver, createNestedConverter().toProtobuf(protobufClass, mappedValue));
 				break;
 			case COLLECTION_MAPPING:
-				Class<?> collectionType = FieldUtils.extractCollectionType(field);
+				Class<?> collectionType = FieldUtils.extractCollectionType(fieldResolver.getField());
 				if (FieldUtils.isComplexType(collectionType)) {
 					Class<? extends Message> protobufCollectionClass = MessageUtils.getMessageCollectionType(
 							mappingResult.getDestination(), FieldUtils.createProtobufGetterName(fieldResolver));
-					mappedValue = createProtobufValueList(protobufCollectionClass, field.getType(),
+					mappedValue = createProtobufValueList(protobufCollectionClass, fieldResolver.getDomainType(),
 							(Collection) mappedValue);
 				}
 			case MAPPED:

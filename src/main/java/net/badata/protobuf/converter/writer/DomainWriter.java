@@ -55,7 +55,7 @@ public class DomainWriter extends AbstractWriter {
 		DefaultValue defaultValueCreator = fieldResolver.getDefaultValue();
 		TypeConverter<?, ?> typeConverter = fieldResolver.getTypeConverter();
 		if (nullInspector.isNull(value)) {
-			writeValue(destination, fieldResolver, defaultValueCreator.generateValue(fieldResolver.getField().getType()));
+			writeValue(destination, fieldResolver, defaultValueCreator.generateValue(fieldResolver.getDomainType()));
 		} else {
 			writeValue(destination, fieldResolver, typeConverter.toDomainValue(value));
 		}
@@ -64,7 +64,7 @@ public class DomainWriter extends AbstractWriter {
 	private void writeValue(final Object destination,  final FieldResolver fieldResolver, final Object value) throws WriteException {
 		String setterName = FieldUtils.createDomainSetterName(fieldResolver);
 		try {
-			destinationClass.getMethod(setterName, fieldResolver.getField().getType()).invoke(destination, value);
+			destinationClass.getMethod(setterName, fieldResolver.getDomainType()).invoke(destination, value);
 		} catch (IllegalAccessException e) {
 			throw new WriteException(
 					String.format("Access denied. '%s.%s()'", destinationClass.getName(), setterName));

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package net.badata.protobuf.converter.proto;
+
+option java_package = "net.badata.protobuf.converter.proto";
+option java_outer_classname = "ResolverProto";
+
+message ResolverTest {
+	repeated string stringListValue = 1;
+	string delimitedStringValue = 3;
+}
+
+
