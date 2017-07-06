@@ -17,13 +17,15 @@
 
 package net.badata.protobuf.converter;
 
-import net.badata.protobuf.converter.domain.MultiMappingDomain;
-import net.badata.protobuf.converter.proto.MultiMappingProto;
+import java.util.Collections;
+import java.util.HashMap;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
+import net.badata.protobuf.converter.domain.MultiMappingDomain;
+import net.badata.protobuf.converter.proto.MultiMappingProto;
 
 /**
  * Created by jsjem on 19.08.2016.
@@ -51,6 +53,10 @@ public class MultiMappingTest {
 						.setIntValue(16)
 						.setLongValueChanged(17)
 						.setUnusableValue("Some string"))
+				.putMultiMappingMapValue("key", MultiMappingProto.MultiMappingSecond.newBuilder()
+						.setIntValue(16)
+						.setLongValueChanged(17)
+						.setUnusableValue("Some string").build())
 				.build();
 	}
 
@@ -64,6 +70,12 @@ public class MultiMappingTest {
 		listChild.setIntValue(61);
 		listChild.setLongValue(71);
 		testDomain.setMultiMappingListValue(Collections.singletonList(listChild));
+
+		testDomain.setMultiMappingMapValue(new HashMap<String, MultiMappingDomain.MultiMappingChild>() {
+			{
+				put("key", child);
+			}
+		});
 	}
 
 	@Test
@@ -87,6 +99,14 @@ public class MultiMappingTest {
 				.getLongValueChanged());
 		Assert.assertEquals("", multiMappingSecond.getUnusableValue());
 
+		multiMappingSecond = protobufResult.getMultiMappingMapValueMap().get("key");
+
+		Assert.assertEquals(testDomain.getMultiMappingMapValue().get("key").getIntValue(),
+				(Object) multiMappingSecond.getIntValue());
+		Assert.assertEquals(testDomain.getMultiMappingMapValue().get("key").getLongValue(), (Object) multiMappingSecond
+				.getLongValueChanged());
+		Assert.assertEquals("", multiMappingSecond.getUnusableValue());
+
 		MultiMappingDomain.MultiMappingOwner domainResult = converter
 				.toDomain(MultiMappingDomain.MultiMappingOwner.class, testProtobuf);
 
@@ -94,12 +114,16 @@ public class MultiMappingTest {
 
 		MultiMappingDomain.MultiMappingChild child = domainResult.getMultiMappingValue();
 		MultiMappingDomain.MultiMappingChild listChild = domainResult.getMultiMappingListValue().get(0);
+		MultiMappingDomain.MultiMappingChild mapChild = domainResult.getMultiMappingMapValue().get("key");
 
 		Assert.assertEquals((Object) testProtobuf.getMultiMappingValue().getIntValue(), child.getIntValue());
 		Assert.assertEquals((Object) testProtobuf.getMultiMappingValue().getLongValue(), child.getLongValue());
 		Assert.assertEquals((Object) testProtobuf.getMultiMappingListValue(0).getIntValue(), listChild.getIntValue());
 		Assert.assertEquals((Object) testProtobuf.getMultiMappingListValue(0).getLongValueChanged(),
 				listChild.getLongValue());
+		Assert.assertEquals((Object) testProtobuf.getMultiMappingMapValueMap().get("key").getIntValue(), mapChild.getIntValue());
+		Assert.assertEquals((Object) testProtobuf.getMultiMappingMapValueMap().get("key").getLongValueChanged(),
+				mapChild.getLongValue());
 	}
 
 

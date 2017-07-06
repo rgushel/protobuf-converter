@@ -7,7 +7,7 @@ option java_outer_classname = "MappingProto";
 
 
 message NestedTest {
-    string stringValue = 1;
+	string stringValue = 1;
 }
 
 message MappingTest {
@@ -20,6 +20,8 @@ message MappingTest {
 	NestedTest nestedValue = 7;
 	repeated string stringListValue = 8;
 	repeated NestedTest nestedListValue = 9;
+	map<string, string> stringMapValue = 10;
+	map<string, NestedTest> nestedMapValue = 11;
 }
 
 

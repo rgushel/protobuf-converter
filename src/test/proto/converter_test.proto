@@ -6,17 +6,18 @@ option java_package = "net.badata.protobuf.converter.proto";
 option java_outer_classname = "ConverterProto";
 
 message PrimitiveTest {
-    int32 intValue = 1;
-    int64 longValue = 2;
-    float floatValue = 3;
-    double doubleValue = 4;
-    bool booleanValue = 5;
+	int32 intValue = 1;
+	int64 longValue = 2;
+	float floatValue = 3;
+	double doubleValue = 4;
+	bool booleanValue = 5;
 }
 
 message FieldConverterTest {
-    string enumString = 1;
-    int64 dateLong = 2;
-    repeated string stringSetValue = 3;
+	string enumString = 1;
+	int64 dateLong = 2;
+	repeated string stringSetValue = 3;
+	map<string, string> stringMapValue = 4;
 }
 
 message NullDefaultTest {
@@ -39,4 +40,7 @@ message ConverterTest {
 	repeated PrimitiveTest complexListValue = 11;
 	repeated PrimitiveTest complexSetValue = 12;
 	repeated PrimitiveTest complexNullableCollectionValue = 13;
+	map<string, string> stringMapValue = 14;
+	map<string, PrimitiveTest> complexMapValue = 15;
+	map<string, PrimitiveTest> complexNullableMapValue = 16;
 }

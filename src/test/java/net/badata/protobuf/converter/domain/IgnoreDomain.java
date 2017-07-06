@@ -1,8 +1,9 @@
 package net.badata.protobuf.converter.domain;
 
-import net.badata.protobuf.converter.annotation.ProtoField;
-
 import java.util.List;
+import java.util.Map;
+
+import net.badata.protobuf.converter.annotation.ProtoField;
 
 /**
  * Created by jsjem on 28.04.2016.
@@ -30,6 +31,9 @@ public class IgnoreDomain {
 		public IgnoreDataTest ignoreClass;
 		@ProtoField
 		public List<IgnoreDataTest> ignoredCollection;
+		@ProtoField
+		public Map<String, IgnoreDataTest> ignoredMap;
+
 		public Object notProtoField;
 
 	}

@@ -17,7 +17,12 @@
 
 package net.badata.protobuf.converter.domain;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 import com.google.protobuf.Message;
+
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -28,9 +33,6 @@ import net.badata.protobuf.converter.proto.MultiMappingProto;
 import net.badata.protobuf.converter.resolver.AnnotatedFieldResolverFactoryImpl;
 import net.badata.protobuf.converter.resolver.DefaultFieldResolverImpl;
 import net.badata.protobuf.converter.resolver.FieldResolver;
-
-import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * Created by jsjem on 19.08.2016.
@@ -45,6 +47,8 @@ public class MultiMappingDomain {
 		private MultiMappingChild multiMappingValue;
 		@ProtoField
 		private List<MultiMappingChild> multiMappingListValue;
+		@ProtoField
+		private Map<String, MultiMappingChild> multiMappingMapValue;
 
 		public MultiMappingChild getMultiMappingValue() {
 			return multiMappingValue;
@@ -61,12 +65,20 @@ public class MultiMappingDomain {
 		public void setMultiMappingListValue(final List<MultiMappingChild> multiMappingListValue) {
 			this.multiMappingListValue = multiMappingListValue;
 		}
+
+		public Map<String, MultiMappingChild> getMultiMappingMapValue() {
+			return multiMappingMapValue;
+		}
+
+		public void setMultiMappingMapValue(Map<String, MultiMappingChild> multiMappingMapValue) {
+			this.multiMappingMapValue = multiMappingMapValue;
+		}
 	}
 
 	@ProtoClasses({@ProtoClass(MultiMappingProto.MultiMappingFirst.class),
-						  @ProtoClass(value = MultiMappingProto.MultiMappingSecond.class,
-									  mapper = MultiMappingMapperImpl.class,
-									  fieldFactory = FieldResolverFactoryImpl.class)})
+						@ProtoClass(value = MultiMappingProto.MultiMappingSecond.class,
+									mapper = MultiMappingMapperImpl.class,
+									fieldFactory = FieldResolverFactoryImpl.class)})
 	public static class MultiMappingChild {
 		@ProtoField
 		private int intValue;
