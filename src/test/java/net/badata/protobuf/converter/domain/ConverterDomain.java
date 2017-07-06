@@ -1,6 +1,13 @@
 package net.badata.protobuf.converter.domain;
 
+import java.lang.reflect.Field;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.protobuf.Message;
+
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.exception.MappingException;
@@ -15,11 +22,6 @@ import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.type.DateLongConverterImpl;
 import net.badata.protobuf.converter.type.EnumStringConverter;
 import net.badata.protobuf.converter.type.SetListConverterImpl;
-
-import java.lang.reflect.Field;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by jsjem on 26.04.2016.
@@ -55,7 +57,12 @@ public class ConverterDomain {
 		private Set<PrimitiveTest> complexSetValue;
 		@ProtoField
 		private List<PrimitiveTest> complexNullableCollectionValue;
-
+		@ProtoField
+		private Map<String, String> stringMapValue;
+		@ProtoField
+		private Map<String, PrimitiveTest> complexMapValue;
+		@ProtoField
+		private Map<String, PrimitiveTest> complexNullableMapValue;
 
 		public Long getLongValue() {
 			return longValue;
@@ -160,6 +167,30 @@ public class ConverterDomain {
 
 		public void setComplexNullableCollectionValue(final List<PrimitiveTest> complexNullableCollectionValue) {
 			this.complexNullableCollectionValue = complexNullableCollectionValue;
+		}
+
+		public Map<String, String> getStringMapValue() {
+			return stringMapValue;
+		}
+
+		public void setStringMapValue(Map<String, String> stringMapValue) {
+			this.stringMapValue = stringMapValue;
+		}
+
+		public Map<String, PrimitiveTest> getComplexMapValue() {
+			return complexMapValue;
+		}
+
+		public void setComplexMapValue(Map<String, PrimitiveTest> complexMapValue) {
+			this.complexMapValue = complexMapValue;
+		}
+
+		public Map<String, PrimitiveTest> getComplexNullableMapValue() {
+			return complexNullableMapValue;
+		}
+
+		public void setComplexNullableMapValue(Map<String, PrimitiveTest> complexNullableMapValue) {
+			this.complexNullableMapValue = complexNullableMapValue;
 		}
 	}
 

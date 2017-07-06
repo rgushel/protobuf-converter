@@ -1,13 +1,8 @@
 package net.badata.protobuf.converter;
 
-import net.badata.protobuf.converter.domain.MappingDomain;
-import net.badata.protobuf.converter.exception.MappingException;
-import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
-import net.badata.protobuf.converter.mapping.MappingResult;
-import net.badata.protobuf.converter.proto.MappingProto;
-import net.badata.protobuf.converter.resolver.AnnotatedFieldResolverFactoryImpl;
-import net.badata.protobuf.converter.resolver.FieldResolver;
-import net.badata.protobuf.converter.resolver.FieldResolverFactory;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,9 +10,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
-
-import static net.badata.protobuf.converter.mapping.MappingResult.Result;
+import net.badata.protobuf.converter.domain.MappingDomain;
+import net.badata.protobuf.converter.exception.MappingException;
+import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
+import net.badata.protobuf.converter.mapping.MappingResult;
+import net.badata.protobuf.converter.mapping.MappingResult.Result;
+import net.badata.protobuf.converter.proto.MappingProto;
+import net.badata.protobuf.converter.resolver.AnnotatedFieldResolverFactoryImpl;
+import net.badata.protobuf.converter.resolver.FieldResolver;
+import net.badata.protobuf.converter.resolver.FieldResolverFactory;
 
 /**
  * Created by jsjem on 26.04.2016.
@@ -64,6 +65,8 @@ public class DefaultMapperTest {
 				.setNestedValue(MappingProto.NestedTest.newBuilder().setStringValue("4"))
 				.addStringListValue("10")
 				.addNestedListValue(MappingProto.NestedTest.newBuilder().setStringValue("20"))
+				.putStringMapValue("key", "value")
+				.putNestedMapValue("key", MappingProto.NestedTest.newBuilder().setStringValue("20").build())
 				.build();
 	}
 
@@ -82,6 +85,17 @@ public class DefaultMapperTest {
 		MappingDomain.NestedTest nestedList = new MappingDomain.NestedTest();
 		nested.setStringValue("120");
 		testDomain.setNestedListValue(Arrays.asList(nestedList));
+
+		testDomain.setSimpleMapValue(new HashMap<String, String>() {
+			{
+				put("key", "value");
+			}
+		});
+		testDomain.setNestedMapValue(new HashMap<String, MappingDomain.NestedTest>() {
+			{
+				put("key", nested);
+			}
+		});
 	}
 
 	private void createPrimitiveTestDomain() {
@@ -136,6 +150,8 @@ public class DefaultMapperTest {
 		testMappingResult(result, Result.MAPPED, testProtobuf.getBooleanValue(), testDomain);
 		result = mapper.mapToDomainField(findDomainField("simpleListValue"), testProtobuf, testDomain);
 		testMappingResult(result, Result.COLLECTION_MAPPING, testProtobuf.getStringListValueList(), testDomain);
+		result = mapper.mapToDomainField(findDomainField("simpleMapValue"), testProtobuf, testDomain);
+		testMappingResult(result, Result.MAP_MAPPING, testProtobuf.getStringMapValueMap(), testDomain);
 	}
 
 	@Test
@@ -146,6 +162,16 @@ public class DefaultMapperTest {
 
 		result = mapper.mapToDomainField(findDomainField("nestedListValue"), testProtobuf, testDomain);
 		testMappingResult(result, Result.COLLECTION_MAPPING, testProtobuf.getNestedListValueList(), testDomain);
+	}
+
+	@Test
+	public void testMapMapToDomain() throws MappingException {
+		exception = ExpectedException.none();
+		MappingResult result = mapper.mapToDomainField(findDomainField("simpleMapValue"), testProtobuf, testDomain);
+		testMappingResult(result, Result.MAP_MAPPING, testProtobuf.getStringMapValueMap(), testDomain);
+
+		result = mapper.mapToDomainField(findDomainField("nestedMapValue"), testProtobuf, testDomain);
+		testMappingResult(result, Result.MAP_MAPPING, testProtobuf.getNestedMapValueMap(), testDomain);
 	}
 
 	@Test
@@ -189,6 +215,18 @@ public class DefaultMapperTest {
 
 		result = mapper.mapToProtobufField(findDomainField("nestedListValue"), testDomain, protobufBuilder);
 		testMappingResult(result, Result.COLLECTION_MAPPING, testDomain.getNestedListValue(), protobufBuilder);
+	}
+
+	@Test
+	public void testMapMapToProtobuf() throws MappingException {
+		exception = ExpectedException.none();
+		MappingProto.MappingTest.Builder protobufBuilder = MappingProto.MappingTest.newBuilder();
+		MappingResult result = mapper
+				.mapToProtobufField(findDomainField("simpleMapValue"), testDomain, protobufBuilder);
+		testMappingResult(result, Result.MAP_MAPPING, testDomain.getSimpleMapValue(), protobufBuilder);
+
+		result = mapper.mapToProtobufField(findDomainField("nestedMapValue"), testDomain, protobufBuilder);
+		testMappingResult(result, Result.MAP_MAPPING, testDomain.getNestedMapValue(), protobufBuilder);
 	}
 
 	@Test

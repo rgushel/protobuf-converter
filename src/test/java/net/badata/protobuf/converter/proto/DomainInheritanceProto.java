@@ -6,29 +6,35 @@ package net.badata.protobuf.converter.proto;
 public final class DomainInheritanceProto {
   private DomainInheritanceProto() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface TestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:net.badata.protobuf.converter.proto.Test)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 inheritedInt = 1;</code>
+     * <code>int32 inheritedInt = 1;</code>
      */
     int getInheritedInt();
 
     /**
-     * <code>optional float inheritedFloat = 2;</code>
+     * <code>float inheritedFloat = 2;</code>
      */
     float getInheritedFloat();
 
     /**
-     * <code>optional int64 ownLong = 3;</code>
+     * <code>int64 ownLong = 3;</code>
      */
     long getOwnLong();
 
     /**
-     * <code>optional double ownDouble = 4;</code>
+     * <code>double ownDouble = 4;</code>
      */
     double getOwnDouble();
   }
@@ -36,11 +42,11 @@ public final class DomainInheritanceProto {
    * Protobuf type {@code net.badata.protobuf.converter.proto.Test}
    */
   public  static final class Test extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:net.badata.protobuf.converter.proto.Test)
       TestOrBuilder {
     // Use Test.newBuilder() to construct.
-    private Test(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private Test(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Test() {
@@ -57,7 +63,8 @@ public final class DomainInheritanceProto {
     }
     private Test(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       try {
@@ -97,11 +104,10 @@ public final class DomainInheritanceProto {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         makeExtensionsImmutable();
       }
@@ -111,7 +117,7 @@ public final class DomainInheritanceProto {
       return net.badata.protobuf.converter.proto.DomainInheritanceProto.internal_static_net_badata_protobuf_converter_proto_Test_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.badata.protobuf.converter.proto.DomainInheritanceProto.internal_static_net_badata_protobuf_converter_proto_Test_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -121,7 +127,7 @@ public final class DomainInheritanceProto {
     public static final int INHERITEDINT_FIELD_NUMBER = 1;
     private int inheritedInt_;
     /**
-     * <code>optional int32 inheritedInt = 1;</code>
+     * <code>int32 inheritedInt = 1;</code>
      */
     public int getInheritedInt() {
       return inheritedInt_;
@@ -130,7 +136,7 @@ public final class DomainInheritanceProto {
     public static final int INHERITEDFLOAT_FIELD_NUMBER = 2;
     private float inheritedFloat_;
     /**
-     * <code>optional float inheritedFloat = 2;</code>
+     * <code>float inheritedFloat = 2;</code>
      */
     public float getInheritedFloat() {
       return inheritedFloat_;
@@ -139,7 +145,7 @@ public final class DomainInheritanceProto {
     public static final int OWNLONG_FIELD_NUMBER = 3;
     private long ownLong_;
     /**
-     * <code>optional int64 ownLong = 3;</code>
+     * <code>int64 ownLong = 3;</code>
      */
     public long getOwnLong() {
       return ownLong_;
@@ -148,7 +154,7 @@ public final class DomainInheritanceProto {
     public static final int OWNDOUBLE_FIELD_NUMBER = 4;
     private double ownDouble_;
     /**
-     * <code>optional double ownDouble = 4;</code>
+     * <code>double ownDouble = 4;</code>
      */
     public double getOwnDouble() {
       return ownDouble_;
@@ -206,6 +212,66 @@ public final class DomainInheritanceProto {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.badata.protobuf.converter.proto.DomainInheritanceProto.Test)) {
+        return super.equals(obj);
+      }
+      net.badata.protobuf.converter.proto.DomainInheritanceProto.Test other = (net.badata.protobuf.converter.proto.DomainInheritanceProto.Test) obj;
+
+      boolean result = true;
+      result = result && (getInheritedInt()
+          == other.getInheritedInt());
+      result = result && (
+          java.lang.Float.floatToIntBits(getInheritedFloat())
+          == java.lang.Float.floatToIntBits(
+              other.getInheritedFloat()));
+      result = result && (getOwnLong()
+          == other.getOwnLong());
+      result = result && (
+          java.lang.Double.doubleToLongBits(getOwnDouble())
+          == java.lang.Double.doubleToLongBits(
+              other.getOwnDouble()));
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + INHERITEDINT_FIELD_NUMBER;
+      hash = (53 * hash) + getInheritedInt();
+      hash = (37 * hash) + INHERITEDFLOAT_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getInheritedFloat());
+      hash = (37 * hash) + OWNLONG_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getOwnLong());
+      hash = (37 * hash) + OWNDOUBLE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getOwnDouble()));
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -229,34 +295,40 @@ public final class DomainInheritanceProto {
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static net.badata.protobuf.converter.proto.DomainInheritanceProto.Test parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -273,7 +345,7 @@ public final class DomainInheritanceProto {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -281,7 +353,7 @@ public final class DomainInheritanceProto {
      * Protobuf type {@code net.badata.protobuf.converter.proto.Test}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:net.badata.protobuf.converter.proto.Test)
         net.badata.protobuf.converter.proto.DomainInheritanceProto.TestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -289,7 +361,7 @@ public final class DomainInheritanceProto {
         return net.badata.protobuf.converter.proto.DomainInheritanceProto.internal_static_net_badata_protobuf_converter_proto_Test_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.badata.protobuf.converter.proto.DomainInheritanceProto.internal_static_net_badata_protobuf_converter_proto_Test_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -302,12 +374,13 @@ public final class DomainInheritanceProto {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -350,6 +423,32 @@ public final class DomainInheritanceProto {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.badata.protobuf.converter.proto.DomainInheritanceProto.Test) {
           return mergeFrom((net.badata.protobuf.converter.proto.DomainInheritanceProto.Test)other);
@@ -390,7 +489,7 @@ public final class DomainInheritanceProto {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (net.badata.protobuf.converter.proto.DomainInheritanceProto.Test) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -401,13 +500,13 @@ public final class DomainInheritanceProto {
 
       private int inheritedInt_ ;
       /**
-       * <code>optional int32 inheritedInt = 1;</code>
+       * <code>int32 inheritedInt = 1;</code>
        */
       public int getInheritedInt() {
         return inheritedInt_;
       }
       /**
-       * <code>optional int32 inheritedInt = 1;</code>
+       * <code>int32 inheritedInt = 1;</code>
        */
       public Builder setInheritedInt(int value) {
         
@@ -416,7 +515,7 @@ public final class DomainInheritanceProto {
         return this;
       }
       /**
-       * <code>optional int32 inheritedInt = 1;</code>
+       * <code>int32 inheritedInt = 1;</code>
        */
       public Builder clearInheritedInt() {
         
@@ -427,13 +526,13 @@ public final class DomainInheritanceProto {
 
       private float inheritedFloat_ ;
       /**
-       * <code>optional float inheritedFloat = 2;</code>
+       * <code>float inheritedFloat = 2;</code>
        */
       public float getInheritedFloat() {
         return inheritedFloat_;
       }
       /**
-       * <code>optional float inheritedFloat = 2;</code>
+       * <code>float inheritedFloat = 2;</code>
        */
       public Builder setInheritedFloat(float value) {
         
@@ -442,7 +541,7 @@ public final class DomainInheritanceProto {
         return this;
       }
       /**
-       * <code>optional float inheritedFloat = 2;</code>
+       * <code>float inheritedFloat = 2;</code>
        */
       public Builder clearInheritedFloat() {
         
@@ -453,13 +552,13 @@ public final class DomainInheritanceProto {
 
       private long ownLong_ ;
       /**
-       * <code>optional int64 ownLong = 3;</code>
+       * <code>int64 ownLong = 3;</code>
        */
       public long getOwnLong() {
         return ownLong_;
       }
       /**
-       * <code>optional int64 ownLong = 3;</code>
+       * <code>int64 ownLong = 3;</code>
        */
       public Builder setOwnLong(long value) {
         
@@ -468,7 +567,7 @@ public final class DomainInheritanceProto {
         return this;
       }
       /**
-       * <code>optional int64 ownLong = 3;</code>
+       * <code>int64 ownLong = 3;</code>
        */
       public Builder clearOwnLong() {
         
@@ -479,13 +578,13 @@ public final class DomainInheritanceProto {
 
       private double ownDouble_ ;
       /**
-       * <code>optional double ownDouble = 4;</code>
+       * <code>double ownDouble = 4;</code>
        */
       public double getOwnDouble() {
         return ownDouble_;
       }
       /**
-       * <code>optional double ownDouble = 4;</code>
+       * <code>double ownDouble = 4;</code>
        */
       public Builder setOwnDouble(double value) {
         
@@ -494,7 +593,7 @@ public final class DomainInheritanceProto {
         return this;
       }
       /**
-       * <code>optional double ownDouble = 4;</code>
+       * <code>double ownDouble = 4;</code>
        */
       public Builder clearOwnDouble() {
         
@@ -532,16 +631,7 @@ public final class DomainInheritanceProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new Test(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -560,17 +650,17 @@ public final class DomainInheritanceProto {
 
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_net_badata_protobuf_converter_proto_Test_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_net_badata_protobuf_converter_proto_Test_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
     return descriptor;
   }
-  private static com.google.protobuf.Descriptors.FileDescriptor
+  private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {
@@ -596,7 +686,7 @@ public final class DomainInheritanceProto {
     internal_static_net_badata_protobuf_converter_proto_Test_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_net_badata_protobuf_converter_proto_Test_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_badata_protobuf_converter_proto_Test_descriptor,
         new java.lang.String[] { "InheritedInt", "InheritedFloat", "OwnLong", "OwnDouble", });
   }

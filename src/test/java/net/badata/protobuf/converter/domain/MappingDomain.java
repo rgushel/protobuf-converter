@@ -1,10 +1,11 @@
 package net.badata.protobuf.converter.domain;
 
+import java.util.List;
+import java.util.Map;
+
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.proto.MappingProto;
-
-import java.util.List;
 
 /**
  * Created by jsjem on 26.04.2016.
@@ -32,8 +33,10 @@ public class MappingDomain {
 		private List<String> simpleListValue;
 		@ProtoField
 		private List<NestedTest> nestedListValue;
-
-
+		@ProtoField(name = "stringMapValue")
+		private Map<String, String> simpleMapValue;
+		@ProtoField
+		private Map<String, NestedTest> nestedMapValue;
 
 		public Long getLongValue() {
 			return longValue;
@@ -105,6 +108,22 @@ public class MappingDomain {
 
 		public void setNestedListValue(final List<NestedTest> nestedListValue) {
 			this.nestedListValue = nestedListValue;
+		}
+
+		public Map<String, String> getSimpleMapValue() {
+			return simpleMapValue;
+		}
+
+		public void setSimpleMapValue(Map<String, String> simpleMapValue) {
+			this.simpleMapValue = simpleMapValue;
+		}
+
+		public Map<String, NestedTest> getNestedMapValue() {
+			return nestedMapValue;
+		}
+
+		public void setNestedMapValue(Map<String, NestedTest> nestedMapValue) {
+			this.nestedMapValue = nestedMapValue;
 		}
 	}
 

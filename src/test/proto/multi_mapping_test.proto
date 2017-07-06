@@ -20,4 +20,5 @@ message MultiMappingSecond {
 message MultiMappingTest {
 	MultiMappingFirst multiMappingValue = 1;
 	repeated MultiMappingSecond multiMappingListValue = 2;
+	map<string, MultiMappingSecond> multiMappingMapValue = 3;
 }

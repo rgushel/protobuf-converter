@@ -1,17 +1,18 @@
 package net.badata.protobuf.converter;
 
-import net.badata.protobuf.converter.domain.ConverterDomain;
-import net.badata.protobuf.converter.proto.ConverterProto;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import static net.badata.protobuf.converter.domain.ConverterDomain.TestEnumConverter.TestEnum;
+import net.badata.protobuf.converter.domain.ConverterDomain;
+import net.badata.protobuf.converter.domain.ConverterDomain.TestEnumConverter.TestEnum;
+import net.badata.protobuf.converter.proto.ConverterProto;
 
 /**
  * Created by jsjem on 21.04.2016.
@@ -55,6 +56,8 @@ public class ConverterTest {
 				.addStringListValue("10")
 				.addComplexListValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001))
 				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
+				.putStringMapValue("key", "value")
+				.putComplexMapValue("key", ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001).build())
 				.build();
 	}
 
@@ -91,6 +94,18 @@ public class ConverterTest {
 		primitiveTestItem.setIntValue(-1002);
 		testDomain.setComplexSetValue(new HashSet<ConverterDomain.PrimitiveTest>(Arrays.asList(primitiveTestSItem)));
 		testDomain.setComplexNullableCollectionValue(null);
+
+		testDomain.setStringMapValue(new HashMap<String, String>() {
+			{
+				put("key", "value");
+			}
+		});
+		testDomain.setComplexMapValue(new HashMap<String, ConverterDomain.PrimitiveTest>() {
+			{
+				put("key", primitiveTestItem);
+			}
+		});
+		testDomain.setComplexNullableMapValue(null);
 	}
 
 	private void createIgnoredFieldsMap() {
@@ -146,6 +161,11 @@ public class ConverterTest {
 				result.getComplexSetValue().iterator().next().getIntValue());
 
 		Assert.assertTrue(result.getComplexNullableCollectionValue().isEmpty());
+
+		Assert.assertEquals(testProtobuf.getStringMapValueMap().get("key"), result.getStringMapValue().get("key"));
+		Assert.assertEquals(testProtobuf.getComplexMapValueMap().get("key").getIntValue(),
+				result.getComplexMapValue().get("key").getIntValue());
+		Assert.assertTrue(result.getComplexNullableMapValue().isEmpty());
 	}
 
 	@Test
@@ -202,6 +222,13 @@ public class ConverterTest {
 				result.getComplexSetValue(0).getIntValue());
 
 		Assert.assertTrue(result.getComplexNullableCollectionValueList().isEmpty());
+
+
+		Assert.assertEquals(testDomain.getStringMapValue().get("key"), result.getStringMapValueMap().get("key"));
+		Assert.assertEquals(testDomain.getComplexMapValue().get("key").getIntValue(),
+				result.getComplexMapValueMap().get("key").getIntValue());
+
+		Assert.assertTrue(result.getComplexNullableMapValueMap().isEmpty());
 	}
 
 	@Test
