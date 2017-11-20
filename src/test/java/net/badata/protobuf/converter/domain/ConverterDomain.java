@@ -1,5 +1,6 @@
 package net.badata.protobuf.converter.domain;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -55,6 +56,8 @@ public class ConverterDomain {
 		private Set<PrimitiveTest> complexSetValue;
 		@ProtoField
 		private List<PrimitiveTest> complexNullableCollectionValue;
+		@ProtoField
+		private ByteString bytesValue;
 
 
 		public Long getLongValue() {
@@ -160,6 +163,14 @@ public class ConverterDomain {
 
 		public void setComplexNullableCollectionValue(final List<PrimitiveTest> complexNullableCollectionValue) {
 			this.complexNullableCollectionValue = complexNullableCollectionValue;
+		}
+
+		public ByteString getBytesValue() {
+			return bytesValue;
+		}
+
+		public void setBytesValue(ByteString bytesValue) {
+			this.bytesValue = bytesValue;
 		}
 	}
 

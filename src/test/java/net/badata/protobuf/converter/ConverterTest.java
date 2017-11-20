@@ -1,5 +1,6 @@
 package net.badata.protobuf.converter;
 
+import com.google.protobuf.ByteString;
 import net.badata.protobuf.converter.domain.ConverterDomain;
 import net.badata.protobuf.converter.proto.ConverterProto;
 import org.junit.Assert;
@@ -55,6 +56,7 @@ public class ConverterTest {
 				.addStringListValue("10")
 				.addComplexListValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001))
 				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
+				.setBytesValue(ByteString.copyFrom(new byte[]{ 0, 1, 3, 7 }))
 				.build();
 	}
 
@@ -91,6 +93,8 @@ public class ConverterTest {
 		primitiveTestItem.setIntValue(-1002);
 		testDomain.setComplexSetValue(new HashSet<ConverterDomain.PrimitiveTest>(Arrays.asList(primitiveTestSItem)));
 		testDomain.setComplexNullableCollectionValue(null);
+
+		testDomain.setBytesValue(ByteString.copyFrom(new byte[]{ 0, 1, 3, 7 }));
 	}
 
 	private void createIgnoredFieldsMap() {
@@ -146,6 +150,8 @@ public class ConverterTest {
 				result.getComplexSetValue().iterator().next().getIntValue());
 
 		Assert.assertTrue(result.getComplexNullableCollectionValue().isEmpty());
+
+		Assert.assertEquals(testProtobuf.getBytesValue(), testDomain.getBytesValue());
 	}
 
 	@Test

@@ -39,4 +39,5 @@ message ConverterTest {
 	repeated PrimitiveTest complexListValue = 11;
 	repeated PrimitiveTest complexSetValue = 12;
 	repeated PrimitiveTest complexNullableCollectionValue = 13;
+	bytes bytesValue = 14;
 }
