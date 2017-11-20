@@ -58,6 +58,8 @@ public class ConverterDomain {
 		private List<PrimitiveTest> complexNullableCollectionValue;
 		@ProtoField
 		private ByteString bytesValue;
+		@ProtoField
+		private Test recursiveValue;
 
 
 		public Long getLongValue() {
@@ -171,6 +173,14 @@ public class ConverterDomain {
 
 		public void setBytesValue(ByteString bytesValue) {
 			this.bytesValue = bytesValue;
+		}
+
+		public Test getRecursiveValue() {
+			return recursiveValue;
+		}
+
+		public void setRecursiveValue(Test recursiveValue) {
+			this.recursiveValue = recursiveValue;
 		}
 	}
 

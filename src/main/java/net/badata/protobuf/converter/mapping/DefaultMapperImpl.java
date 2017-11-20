@@ -41,12 +41,38 @@ public class DefaultMapperImpl implements Mapper {
 			final Object domain) throws MappingException {
 		Object protobufFieldValue = getFieldValue(FieldUtils.createProtobufGetterName(fieldResolver), protobuf);
 		if (FieldUtils.isComplexType(fieldResolver.getField())) {
-			return new MappingResult(MappingResult.Result.NESTED_MAPPING, protobufFieldValue, domain);
+			boolean hasFieldValue = true;
+			try {
+				String hasserName = FieldUtils.createProtobufHasserName(fieldResolver);
+				if (hasserName != null) {
+					hasFieldValue = hasFieldValue(hasserName, protobuf);
+				}
+			} catch (MappingException ignored) {} // not `has` method, continue
+			if (hasFieldValue) {
+				return new MappingResult(MappingResult.Result.NESTED_MAPPING, protobufFieldValue, domain);
+			}
+			return new MappingResult(MappingResult.Result.MAPPED, null, domain);
 		}
 		if (FieldUtils.isCollectionType(fieldResolver.getField())) {
 			return new MappingResult(MappingResult.Result.COLLECTION_MAPPING, protobufFieldValue, domain);
 		}
 		return new MappingResult(MappingResult.Result.MAPPED, protobufFieldValue, domain);
+	}
+
+	private boolean hasFieldValue(final String hasserName, final Object source) throws MappingException {
+		Class<?> sourceClass = source.getClass();
+		try {
+			return (boolean) sourceClass.getMethod(hasserName).invoke(source);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(
+					String.format("Access denied. '%s.%s()'", sourceClass.getName(), hasserName));
+		} catch (InvocationTargetException e) {
+			throw new MappingException(
+					String.format("Can't decide if field has value through '%s.%s()'", sourceClass.getName(), hasserName));
+		} catch (NoSuchMethodException e) {
+			throw new MappingException(
+					String.format("Hasser not found. '%s.%s()'", sourceClass.getName(), hasserName));
+		}
 	}
 
 	private Object getFieldValue(final String getterName, final Object source) throws MappingException {
