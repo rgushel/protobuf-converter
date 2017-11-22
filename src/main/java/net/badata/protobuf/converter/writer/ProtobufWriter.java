@@ -60,18 +60,26 @@ public class ProtobufWriter extends AbstractWriter {
 
 
 	private void writeValue(final Object destination, final FieldResolver fieldResolver, final Object value) throws WriteException {
-		String setterName = FieldUtils.createProtobufSetterName(fieldResolver);
-		try {
-			destinationClass.getMethod(setterName, extractValueClass(value)).invoke(destination, value);
-		} catch (IllegalAccessException e) {
-			throw new WriteException(
-					String.format("Access denied. '%s.%s()'", destinationClass.getName(), setterName));
-		} catch (InvocationTargetException e) {
-			throw new WriteException(
-					String.format("Can't set field value through '%s.%s()'", destinationClass.getName(), setterName));
-		} catch (NoSuchMethodException e) {
-			throw new WriteException(
-					String.format("Setter not found: '%s.%s()'", destinationClass.getName(), setterName));
+		Class<?> valueClass = extractValueClass(value);
+		while (valueClass != null) {
+			String setterName = FieldUtils.createProtobufSetterName(fieldResolver);
+			try {
+				destinationClass.getMethod(setterName, valueClass).invoke(destination, value);
+				break;
+			} catch (IllegalAccessException e) {
+				throw new WriteException(
+						String.format("Access denied. '%s.%s(%s)'", destinationClass.getName(), setterName, valueClass));
+			} catch (InvocationTargetException e) {
+				throw new WriteException(
+						String.format("Can't set field value through '%s.%s(%s)'", destinationClass.getName(), setterName, valueClass));
+			} catch (NoSuchMethodException e) {
+				if (valueClass.getSuperclass() != null) {
+					valueClass = valueClass.getSuperclass();
+				} else {
+					throw new WriteException(
+							String.format("Setter not found: '%s.%s(%s)'", destinationClass.getName(), setterName, valueClass));
+				}
+			}
 		}
 	}
 

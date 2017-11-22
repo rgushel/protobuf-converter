@@ -32,6 +32,7 @@ import java.util.Collection;
  */
 public final class FieldUtils {
 
+	private static final String HASSER_PREFIX = "has";
 	private static final String GETTER_PREFIX = "get";
 	private static final String SETTER_PREFIX = "set";
 	private static final String BOOLEAN_GETTER_PREFIX = "is";
@@ -78,6 +79,19 @@ public final class FieldUtils {
 	 */
 	public static boolean isCollectionType(final Class<?> type) {
 		return Collection.class.isAssignableFrom(type);
+	}
+
+	/**
+	 * Create protobuf getter name for domain field.
+	 *
+	 * @param fieldResolver Domain object field resolver.
+	 * @return Protobuf field getter name.
+	 */
+	public static String createProtobufHasserName(final FieldResolver fieldResolver) {
+		if (isCollectionType(fieldResolver.getProtobufType())) {
+			return null;
+		}
+		return StringUtils.createMethodName(HASSER_PREFIX, fieldResolver.getProtobufName());
 	}
 
 	/**

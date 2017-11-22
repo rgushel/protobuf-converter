@@ -2250,6 +2250,24 @@ public final class ConverterProto {
      */
     net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTestOrBuilder getComplexNullableCollectionValueOrBuilder(
         int index);
+
+    /**
+     * <code>optional bytes bytesValue = 14;</code>
+     */
+    com.google.protobuf.ByteString getBytesValue();
+
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    boolean hasRecursiveValue();
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    net.badata.protobuf.converter.proto.ConverterProto.ConverterTest getRecursiveValue();
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder getRecursiveValueOrBuilder();
   }
   /**
    * Protobuf type {@code net.badata.protobuf.converter.proto.ConverterTest}
@@ -2273,6 +2291,7 @@ public final class ConverterProto {
       complexListValue_ = java.util.Collections.emptyList();
       complexSetValue_ = java.util.Collections.emptyList();
       complexNullableCollectionValue_ = java.util.Collections.emptyList();
+      bytesValue_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -2400,6 +2419,24 @@ public final class ConverterProto {
                 mutable_bitField0_ |= 0x00001000;
               }
               complexNullableCollectionValue_.add(input.readMessage(net.badata.protobuf.converter.proto.ConverterProto.PrimitiveTest.parser(), extensionRegistry));
+              break;
+            }
+            case 114: {
+
+              bytesValue_ = input.readBytes();
+              break;
+            }
+            case 122: {
+              net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder subBuilder = null;
+              if (recursiveValue_ != null) {
+                subBuilder = recursiveValue_.toBuilder();
+              }
+              recursiveValue_ = input.readMessage(net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(recursiveValue_);
+                recursiveValue_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -2715,6 +2752,36 @@ public final class ConverterProto {
       return complexNullableCollectionValue_.get(index);
     }
 
+    public static final int BYTESVALUE_FIELD_NUMBER = 14;
+    private com.google.protobuf.ByteString bytesValue_;
+    /**
+     * <code>optional bytes bytesValue = 14;</code>
+     */
+    public com.google.protobuf.ByteString getBytesValue() {
+      return bytesValue_;
+    }
+
+    public static final int RECURSIVEVALUE_FIELD_NUMBER = 15;
+    private net.badata.protobuf.converter.proto.ConverterProto.ConverterTest recursiveValue_;
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    public boolean hasRecursiveValue() {
+      return recursiveValue_ != null;
+    }
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    public net.badata.protobuf.converter.proto.ConverterProto.ConverterTest getRecursiveValue() {
+      return recursiveValue_ == null ? net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.getDefaultInstance() : recursiveValue_;
+    }
+    /**
+     * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+     */
+    public net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder getRecursiveValueOrBuilder() {
+      return getRecursiveValue();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2765,6 +2832,12 @@ public final class ConverterProto {
       }
       for (int i = 0; i < complexNullableCollectionValue_.size(); i++) {
         output.writeMessage(13, complexNullableCollectionValue_.get(i));
+      }
+      if (!bytesValue_.isEmpty()) {
+        output.writeBytes(14, bytesValue_);
+      }
+      if (recursiveValue_ != null) {
+        output.writeMessage(15, getRecursiveValue());
       }
     }
 
@@ -2827,6 +2900,14 @@ public final class ConverterProto {
       for (int i = 0; i < complexNullableCollectionValue_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, complexNullableCollectionValue_.get(i));
+      }
+      if (!bytesValue_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(14, bytesValue_);
+      }
+      if (recursiveValue_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, getRecursiveValue());
       }
       memoizedSize = size;
       return size;
@@ -2992,6 +3073,14 @@ public final class ConverterProto {
         } else {
           complexNullableCollectionValueBuilder_.clear();
         }
+        bytesValue_ = com.google.protobuf.ByteString.EMPTY;
+
+        if (recursiveValueBuilder_ == null) {
+          recursiveValue_ = null;
+        } else {
+          recursiveValue_ = null;
+          recursiveValueBuilder_ = null;
+        }
         return this;
       }
 
@@ -3068,6 +3157,12 @@ public final class ConverterProto {
           result.complexNullableCollectionValue_ = complexNullableCollectionValue_;
         } else {
           result.complexNullableCollectionValue_ = complexNullableCollectionValueBuilder_.build();
+        }
+        result.bytesValue_ = bytesValue_;
+        if (recursiveValueBuilder_ == null) {
+          result.recursiveValue_ = recursiveValue_;
+        } else {
+          result.recursiveValue_ = recursiveValueBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3200,6 +3295,12 @@ public final class ConverterProto {
               complexNullableCollectionValueBuilder_.addAllMessages(other.complexNullableCollectionValue_);
             }
           }
+        }
+        if (other.getBytesValue() != com.google.protobuf.ByteString.EMPTY) {
+          setBytesValue(other.getBytesValue());
+        }
+        if (other.hasRecursiveValue()) {
+          mergeRecursiveValue(other.getRecursiveValue());
         }
         onChanged();
         return this;
@@ -4591,6 +4692,152 @@ public final class ConverterProto {
         }
         return complexNullableCollectionValueBuilder_;
       }
+
+      private com.google.protobuf.ByteString bytesValue_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes bytesValue = 14;</code>
+       */
+      public com.google.protobuf.ByteString getBytesValue() {
+        return bytesValue_;
+      }
+      /**
+       * <code>optional bytes bytesValue = 14;</code>
+       */
+      public Builder setBytesValue(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        bytesValue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes bytesValue = 14;</code>
+       */
+      public Builder clearBytesValue() {
+        
+        bytesValue_ = getDefaultInstance().getBytesValue();
+        onChanged();
+        return this;
+      }
+
+      private net.badata.protobuf.converter.proto.ConverterProto.ConverterTest recursiveValue_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          net.badata.protobuf.converter.proto.ConverterProto.ConverterTest, net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder> recursiveValueBuilder_;
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public boolean hasRecursiveValue() {
+        return recursiveValueBuilder_ != null || recursiveValue_ != null;
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.ConverterTest getRecursiveValue() {
+        if (recursiveValueBuilder_ == null) {
+          return recursiveValue_ == null ? net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.getDefaultInstance() : recursiveValue_;
+        } else {
+          return recursiveValueBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public Builder setRecursiveValue(net.badata.protobuf.converter.proto.ConverterProto.ConverterTest value) {
+        if (recursiveValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          recursiveValue_ = value;
+          onChanged();
+        } else {
+          recursiveValueBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public Builder setRecursiveValue(
+          net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder builderForValue) {
+        if (recursiveValueBuilder_ == null) {
+          recursiveValue_ = builderForValue.build();
+          onChanged();
+        } else {
+          recursiveValueBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public Builder mergeRecursiveValue(net.badata.protobuf.converter.proto.ConverterProto.ConverterTest value) {
+        if (recursiveValueBuilder_ == null) {
+          if (recursiveValue_ != null) {
+            recursiveValue_ =
+              net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.newBuilder(recursiveValue_).mergeFrom(value).buildPartial();
+          } else {
+            recursiveValue_ = value;
+          }
+          onChanged();
+        } else {
+          recursiveValueBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public Builder clearRecursiveValue() {
+        if (recursiveValueBuilder_ == null) {
+          recursiveValue_ = null;
+          onChanged();
+        } else {
+          recursiveValue_ = null;
+          recursiveValueBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder getRecursiveValueBuilder() {
+        
+        onChanged();
+        return getRecursiveValueFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      public net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder getRecursiveValueOrBuilder() {
+        if (recursiveValueBuilder_ != null) {
+          return recursiveValueBuilder_.getMessageOrBuilder();
+        } else {
+          return recursiveValue_ == null ?
+              net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.getDefaultInstance() : recursiveValue_;
+        }
+      }
+      /**
+       * <code>optional .net.badata.protobuf.converter.proto.ConverterTest recursiveValue = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          net.badata.protobuf.converter.proto.ConverterProto.ConverterTest, net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder> 
+          getRecursiveValueFieldBuilder() {
+        if (recursiveValueBuilder_ == null) {
+          recursiveValueBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              net.badata.protobuf.converter.proto.ConverterProto.ConverterTest, net.badata.protobuf.converter.proto.ConverterProto.ConverterTest.Builder, net.badata.protobuf.converter.proto.ConverterProto.ConverterTestOrBuilder>(
+                  getRecursiveValue(),
+                  getParentForChildren(),
+                  isClean());
+          recursiveValue_ = null;
+        }
+        return recursiveValueBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -4688,7 +4935,7 @@ public final class ConverterProto {
       "\022\022\n\nnullString\030\001 \001(\t\022\036\n\026customInspection" +
       "String\030\002 \001(\t\022M\n\021defaultPrimitives\030\003 \001(\0132" +
       "2.net.badata.protobuf.converter.proto.Pr",
-      "imitiveTest\"\213\005\n\rConverterTest\022\020\n\010intValu" +
+      "imitiveTest\"\353\005\n\rConverterTest\022\020\n\010intValu" +
       "e\030\001 \001(\005\022\021\n\tlongValue\030\002 \001(\003\022\022\n\nfloatValue" +
       "\030\003 \001(\002\022\023\n\013doubleValue\030\004 \001(\001\022\024\n\014booleanVa" +
       "lue\030\005 \001(\010\022\023\n\013stringValue\030\006 \001(\t\022J\n\016primit" +
@@ -4704,9 +4951,11 @@ public final class ConverterProto {
       "\01322.net.badata.protobuf.converter.proto." +
       "PrimitiveTest\022Z\n\036complexNullableCollecti" +
       "onValue\030\r \003(\01322.net.badata.protobuf.conv" +
-      "erter.proto.PrimitiveTestB5\n#net.badata." +
-      "protobuf.converter.protoB\016ConverterProto" +
-      "b\006proto3"
+      "erter.proto.PrimitiveTest\022\022\n\nbytesValue\030" +
+      "\016 \001(\014\022J\n\016recursiveValue\030\017 \001(\01322.net.bada" +
+      "ta.protobuf.converter.proto.ConverterTes" +
+      "tB5\n#net.badata.protobuf.converter.proto",
+      "B\016ConverterProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4743,7 +4992,7 @@ public final class ConverterProto {
     internal_static_net_badata_protobuf_converter_proto_ConverterTest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_badata_protobuf_converter_proto_ConverterTest_descriptor,
-        new java.lang.String[] { "IntValue", "LongValue", "FloatValue", "DoubleValue", "BooleanValue", "StringValue", "PrimitiveValue", "FieldConversionValue", "NullDefaultValue", "StringListValue", "ComplexListValue", "ComplexSetValue", "ComplexNullableCollectionValue", });
+        new java.lang.String[] { "IntValue", "LongValue", "FloatValue", "DoubleValue", "BooleanValue", "StringValue", "PrimitiveValue", "FieldConversionValue", "NullDefaultValue", "StringListValue", "ComplexListValue", "ComplexSetValue", "ComplexNullableCollectionValue", "BytesValue", "RecursiveValue", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
