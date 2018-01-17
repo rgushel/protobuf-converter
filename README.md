@@ -41,7 +41,7 @@ User userDomain = Converter.create().toDomain(User.class, userProto);
 ```
 Conversion of lists of objects is similar to single object conversion.
 
-###@ProtoClass
+### @ProtoClass
 Annotation attibutes:
 
 * *value* - required. Contains reference to protobuf message class.
@@ -51,7 +51,7 @@ Annotation attibutes:
 
 If type of domain class field is complex (marked by **@ProtoClass**) protobuf-converter will convert this field value to related protobuf message (**DefaultMapperImpl.class** has to be specified as mapper attribute value)
 
-###@ProtoField
+### @ProtoField
 Annotation attibutes:
 
 1. *name* - optional. Related protobuf field name.
@@ -63,7 +63,7 @@ Use *name* attribute when domain class field name is different from name specifi
 
 *converter* attribute is useful when domain class field type is different from protobuf message field type. E.g.: date value in the domain class is stored into **java.util.Date** and protobuf message uses int64(**java.lang.Long**). For field data tarnsformation you must specify **DateLongConverterImpl.class** as value of *converter* attribute. You can create own field type converter if you implement **TypeConverter** interface.
 
-###Fields Ignore
+### Fields Ignore
 
 In case when you need to prevent transforming some domain fields values into protobuf message field values use **FieldsIgnore.class**.
 
