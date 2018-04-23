@@ -17,6 +17,7 @@
 
 package net.badata.protobuf.converter.utils;
 
+import java.util.Map;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.resolver.FieldResolver;
@@ -38,6 +39,8 @@ public final class FieldUtils {
 	private static final String BOOLEAN_GETTER_PREFIX = "is";
 	private static final String PROTOBUF_LIST_GETTER_POSTFIX = "List";
 	private static final String PROTOBUF_LIST_SETTER_PREFIX = "addAll";
+	private static final String PROTOBUF_MAP_GETTER_POSTFIX = "Map";
+	private static final String PROTOBUF_MAP_SETTER_PREFIX = "putAll";
 
 	/**
 	 * Check whether field has own mapper.
@@ -82,6 +85,26 @@ public final class FieldUtils {
 	}
 
 	/**
+	 * Check whether field type implements Map interface.
+	 *
+	 * @param field Testing field.
+	 * @return true if field type implements {@link java.util.Map}, otherwise false.
+	 */
+	public static boolean isMapType(final Field field) {
+		return isMapType(field.getType());
+	}
+
+	/**
+	 * Check whether class implements Map interface.
+	 *
+	 * @param type Testing class.
+	 * @return true if class implements {@link java.util.Map}, otherwise false.
+	 */
+	private static boolean isMapType(final Class<?> type) {
+		return Map.class.isAssignableFrom(type);
+	}
+
+	/**
 	 * Create protobuf getter name for domain field.
 	 *
 	 * @param fieldResolver Domain object field resolver.
@@ -105,6 +128,9 @@ public final class FieldUtils {
 		if (isCollectionType(fieldResolver.getProtobufType())) {
 			return getterName + PROTOBUF_LIST_GETTER_POSTFIX;
 		}
+		if (isMapType(fieldResolver.getProtobufType())) {
+			return getterName + PROTOBUF_MAP_GETTER_POSTFIX;
+		}
 		return getterName;
 	}
 
@@ -117,6 +143,9 @@ public final class FieldUtils {
 	public static String createProtobufSetterName(final FieldResolver fieldResolver) {
 		if (isCollectionType(fieldResolver.getProtobufType())) {
 			return StringUtils.createMethodName(PROTOBUF_LIST_SETTER_PREFIX, fieldResolver.getProtobufName());
+		}
+		if (isMapType(fieldResolver.getProtobufType())) {
+			return StringUtils.createMethodName(PROTOBUF_MAP_SETTER_PREFIX, fieldResolver.getProtobufName());
 		}
 		return StringUtils.createMethodName(SETTER_PREFIX, fieldResolver.getProtobufName());
 	}
@@ -153,6 +182,20 @@ public final class FieldUtils {
 	public static Class<?> extractCollectionType(final Field field) {
 		ParameterizedType genericType = (ParameterizedType) field.getGenericType();
 		return (Class<?>) genericType.getActualTypeArguments()[0];
+	}
+
+	/**
+	 * Extract parameter types of the map.
+	 *
+	 * @param field Field with type derived from {@link java.util.Map}.
+	 * @return Map generic types.
+	 */
+	public static Class<?>[] extractMapTypes(Field field) {
+		ParameterizedType genericType = (ParameterizedType) field.getGenericType();
+		Class<?>[] result = new Class[2];
+		result[0] = (Class<?>) genericType.getActualTypeArguments()[0];
+		result[1] = (Class<?>) genericType.getActualTypeArguments()[1];
+		return result;
 	}
 
 	/**

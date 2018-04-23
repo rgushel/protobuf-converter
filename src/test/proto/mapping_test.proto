@@ -20,6 +20,8 @@ message MappingTest {
 	NestedTest nestedValue = 7;
 	repeated string stringListValue = 8;
 	repeated NestedTest nestedListValue = 9;
+	map<string,string> simpleMap = 10;
+	map<string,NestedTest> nestedMap = 11;
 }
 
 

@@ -22,18 +22,18 @@ repositories {
 
 [ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
 
-sourceCompatibility='1.7'
-targetCompatibility='1.7'
+sourceCompatibility='1.8'
+targetCompatibility='1.8'
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.0.0-beta-1'
+        artifact = 'com.google.protobuf:protoc:3.5.1'
     }
     generatedFilesBaseDir = "$projectDir/src"
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.0.0-beta-1'
+    compile 'com.google.protobuf:protobuf-java:3.5.1'
     testCompile 'junit:junit:4.12'
 }
 

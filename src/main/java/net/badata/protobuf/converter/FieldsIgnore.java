@@ -73,7 +73,7 @@ public class FieldsIgnore {
 	 * Add all fields from another {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore} instance.
 	 *
 	 * @param ignoredFields Instance of {@link net.badata.protobuf.converter.FieldsIgnore FieldsIgnore}.
-	 * @return
+	 * @return Returns FieldsIgnore
 	 */
 	public FieldsIgnore addAll(final FieldsIgnore ignoredFields) {
 		ignoreMapping.putAll(ignoredFields.ignoreMapping);

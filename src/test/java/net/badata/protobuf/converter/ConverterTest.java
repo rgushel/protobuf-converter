@@ -1,6 +1,7 @@
 package net.badata.protobuf.converter;
 
 import com.google.protobuf.ByteString;
+import java.util.Collections;
 import net.badata.protobuf.converter.domain.ConverterDomain;
 import net.badata.protobuf.converter.proto.ConverterProto;
 import org.junit.Assert;
@@ -58,6 +59,8 @@ public class ConverterTest {
 				.addComplexSetValue(ConverterProto.PrimitiveTest.newBuilder().setIntValue(1002))
 				.setBytesValue(ByteString.copyFrom(new byte[]{ 0, 1, 3, 7 }))
 				.setRecursiveValue(ConverterProto.ConverterTest.newBuilder().setIntValue(1))
+				.putSimpleMapValue("key", "value")
+				.putComplexMapValue("key", ConverterProto.PrimitiveTest.newBuilder().setIntValue(1001).build())
 				.build();
 	}
 
@@ -100,6 +103,9 @@ public class ConverterTest {
 		ConverterDomain.Test nestedValue = new ConverterDomain.Test();
 		nestedValue.setIntValue(1);
 		testDomain.setRecursiveValue(nestedValue);
+
+		testDomain.setSimpleMapValue(Collections.singletonMap("key", "value"));
+		testDomain.setComplexMapValue(Collections.singletonMap("key", primitiveTestItem));
 	}
 
 	private void createIgnoredFieldsMap() {
@@ -158,6 +164,10 @@ public class ConverterTest {
 
 		Assert.assertEquals(testProtobuf.getBytesValue(), result.getBytesValue());
 		Assert.assertEquals((Object) testProtobuf.getRecursiveValue().getIntValue(), result.getRecursiveValue().getIntValue());
+
+		Assert.assertEquals(testProtobuf.getSimpleMapValueMap(), result.getSimpleMapValue());
+		Assert.assertEquals(testProtobuf.getComplexMapValueMap().get("key").getIntValue(),
+				result.getComplexMapValue().get("key").getIntValue());
 	}
 
 	@Test
@@ -215,6 +225,8 @@ public class ConverterTest {
 
 		Assert.assertTrue(result.getComplexNullableCollectionValueList().isEmpty());
 		Assert.assertEquals((Object) testDomain.getRecursiveValue().getIntValue(), result.getRecursiveValue().getIntValue());
+		Assert.assertEquals(testDomain.getSimpleMapValue(), result.getSimpleMapValueMap());
+		Assert.assertEquals(testDomain.getComplexMapValue(), result.getComplexMapValueMap());
 	}
 
 	@Test

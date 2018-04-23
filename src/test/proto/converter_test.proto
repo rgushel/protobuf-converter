@@ -41,4 +41,6 @@ message ConverterTest {
 	repeated PrimitiveTest complexNullableCollectionValue = 13;
 	bytes bytesValue = 14;
 	ConverterTest recursiveValue = 15;
+	map<string, string> simpleMapValue = 16;
+	map<string, PrimitiveTest> complexMapValue = 17;
 }
