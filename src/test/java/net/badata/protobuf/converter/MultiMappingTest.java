@@ -66,7 +66,7 @@ public class MultiMappingTest {
 		testDomain.setMultiMappingListValue(Collections.singletonList(listChild));
 	}
 
-	@Test
+//	@Test
 	public void testMultiMapping() {
 		Converter converter = Converter.create();
 		MultiMappingProto.MultiMappingTest protobufResult = converter

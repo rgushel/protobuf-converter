@@ -18,6 +18,7 @@
 package net.badata.protobuf.converter.writer;
 
 import com.google.protobuf.Message;
+import java.util.Map;
 import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.type.TypeConverter;
@@ -90,6 +91,9 @@ public class ProtobufWriter extends AbstractWriter {
 		}
 		if (Collection.class.isAssignableFrom(valueClass)) {
 			return Iterable.class;
+		}
+		if (Map.class.isAssignableFrom(valueClass)) {
+			return Map.class;
 		}
 		return valueClass;
 	}

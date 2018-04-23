@@ -2,6 +2,7 @@ package net.badata.protobuf.converter.domain;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
+import java.util.Map;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.exception.MappingException;
@@ -60,6 +61,10 @@ public class ConverterDomain {
 		private ByteString bytesValue;
 		@ProtoField
 		private Test recursiveValue;
+		@ProtoField
+		private Map<String, String> simpleMapValue;
+		@ProtoField
+		private Map<String, PrimitiveTest> complexMapValue;
 
 
 		public Long getLongValue() {
@@ -181,6 +186,23 @@ public class ConverterDomain {
 
 		public void setRecursiveValue(Test recursiveValue) {
 			this.recursiveValue = recursiveValue;
+		}
+
+		public Map<String, String> getSimpleMapValue() {
+			return simpleMapValue;
+		}
+
+		public void setSimpleMapValue(Map<String, String> simpleMapValue) {
+			this.simpleMapValue = simpleMapValue;
+		}
+
+		public Map<String, PrimitiveTest> getComplexMapValue() {
+			return complexMapValue;
+		}
+
+		public void setComplexMapValue(
+				Map<String, PrimitiveTest> complexMapValue) {
+			this.complexMapValue = complexMapValue;
 		}
 	}
 
