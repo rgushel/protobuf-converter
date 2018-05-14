@@ -20,11 +20,10 @@ import net.badata.protobuf.example.server.domain.Reader;
 import java.util.List;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
-public class LibraryService implements LibraryServiceGrpc.LibraryService {
+public class LibraryService extends LibraryServiceGrpc.LibraryServiceImplBase {
 
 	private final MemoryDatabase database;
 

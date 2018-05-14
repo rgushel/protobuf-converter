@@ -20,7 +20,8 @@ import java.util.Arrays;
 import static net.badata.protobuf.converter.mapping.MappingResult.Result;
 
 /**
- * Created by jsjem on 26.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class DefaultMapperTest {
 

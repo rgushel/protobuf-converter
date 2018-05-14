@@ -12,9 +12,8 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 /**
- * Created by jsjem on 05.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class ClientWindow implements LoginView.OnLoginActionListener, AddBookView.OnAddBookActionListener,
 		LibraryView.OnLibraryActionListener {

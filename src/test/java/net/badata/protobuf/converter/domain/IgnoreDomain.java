@@ -5,7 +5,8 @@ import net.badata.protobuf.converter.annotation.ProtoField;
 import java.util.List;
 
 /**
- * Created by jsjem on 28.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class IgnoreDomain {
 

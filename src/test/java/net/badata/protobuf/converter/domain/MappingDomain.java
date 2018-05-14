@@ -7,7 +7,8 @@ import net.badata.protobuf.converter.proto.MappingProto;
 import java.util.List;
 
 /**
- * Created by jsjem on 26.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class MappingDomain {
 

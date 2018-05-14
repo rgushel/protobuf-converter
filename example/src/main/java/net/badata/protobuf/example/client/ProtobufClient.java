@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class ProtobufClient {
 

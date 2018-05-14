@@ -4,9 +4,8 @@ import net.badata.protobuf.example.client.view.ClientWindow;
 import net.badata.protobuf.example.server.ProtobufServer;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class Main {
 

@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by jsjem on 26.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class ConverterDomain {
 

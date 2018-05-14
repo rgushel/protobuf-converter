@@ -8,9 +8,8 @@ import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.example.proto.Book;
 
 /**
- * Created by jsjem on 05.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class BookMapper extends DefaultMapperImpl {
 

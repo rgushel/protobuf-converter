@@ -7,9 +7,8 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
 /**
- * Created by jsjem on 06.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class AddBookView implements ActionListener {
 

@@ -1,6 +1,5 @@
 [![Build Status](https://api.travis-ci.org/BAData/protobuf-converter.svg)](https://travis-ci.org/BAData/protobuf-converter)
 [![GitHub release](https://img.shields.io/github/release/BAData/protobuf-converter.svg)](https://github.com/BAData/protobuf-converter/releases)
-[![Slack Status](http://badata-support.herokuapp.com/badge.svg)](https://badata-support.herokuapp.com)
 [![JitPack repository](https://jitpack.io/v/BAData/protobuf-converter.svg)](https://jitpack.io/#BAData/protobuf-converter)
 # Protobuf converter
 **protobuf-converter** is library for transforming your Domain Model Objects into Google Protobuf Messages and vice versa.
@@ -137,4 +136,4 @@ java -jar example.jar
 
 # License
 
-GNU General Public License v3.0
+MIT License

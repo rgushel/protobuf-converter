@@ -8,9 +8,8 @@ import net.badata.protobuf.example.proto.Book;
 import java.util.Objects;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 @ProtoClass(Book.class)
 public class LibraryBook {

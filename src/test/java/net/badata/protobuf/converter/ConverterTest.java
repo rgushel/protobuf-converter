@@ -15,7 +15,8 @@ import java.util.Set;
 import static net.badata.protobuf.converter.domain.ConverterDomain.TestEnumConverter.TestEnum;
 
 /**
- * Created by jsjem on 21.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class ConverterTest {
 

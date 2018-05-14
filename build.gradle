@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:0.7.6"
+        classpath "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:0.8.5"
     }
 }
 
@@ -27,13 +27,13 @@ targetCompatibility='1.7'
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.0.0-beta-1'
+        artifact = 'com.google.protobuf:protoc:3.5.1'
     }
     generatedFilesBaseDir = "$projectDir/src"
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.0.0-beta-1'
+    compile 'com.google.protobuf:protobuf-java:3.5.1'
     testCompile 'junit:junit:4.12'
 }
 
@@ -50,19 +50,4 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
-}
-
-// To specify a license in the pom:
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            licenses {
-                license {
-                    name 'GNU General Public License v3.0'
-                    url 'http://www.gnu.org/licenses/gpl-3.0.txt'
-                    distribution 'repo'
-                }
-            }
-        }
-    }
 }

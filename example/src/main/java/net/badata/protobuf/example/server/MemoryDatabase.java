@@ -11,9 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by jsjem on 05.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class MemoryDatabase {
 

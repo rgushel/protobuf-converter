@@ -1,6 +1,5 @@
 package net.badata.protobuf.converter;
 
-
 import net.badata.protobuf.converter.domain.DomainInheritanceDomain;
 import net.badata.protobuf.converter.proto.DomainInheritanceProto;
 import org.junit.Before;
@@ -8,7 +7,10 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-
+/**
+ * @author jsjem
+ * @author Roman Gushel
+ */
 public class DomainInheritanceTest {
 
 	private DomainInheritanceDomain.Test testDomain;

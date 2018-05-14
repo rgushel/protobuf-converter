@@ -12,9 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * Created by jsjem on 06.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class LibraryView implements ActionListener, ListSelectionListener {
 

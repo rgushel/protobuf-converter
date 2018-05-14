@@ -13,7 +13,8 @@ import static net.badata.protobuf.converter.domain.IgnoreDomain.IgnoreDataTest;
 import static net.badata.protobuf.converter.domain.IgnoreDomain.NoIgnoreDataTest;
 
 /**
- * Created by jsjem on 22.04.2016.
+ * @author jsjem
+ * @author Roman Gushel
  */
 public class FieldsIgnoreTest {
 

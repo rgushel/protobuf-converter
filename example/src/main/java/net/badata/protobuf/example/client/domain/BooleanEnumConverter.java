@@ -4,9 +4,8 @@ import net.badata.protobuf.converter.type.TypeConverter;
 import net.badata.protobuf.example.proto.BookState;
 
 /**
- * Created by jsjem on 05.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class BooleanEnumConverter implements TypeConverter<Boolean, BookState> {
 

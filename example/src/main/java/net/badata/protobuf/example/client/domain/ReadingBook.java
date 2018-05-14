@@ -5,9 +5,8 @@ import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.example.proto.Book;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 @ProtoClass(value = Book.class, mapper = BookMapper.class)
 public class ReadingBook {

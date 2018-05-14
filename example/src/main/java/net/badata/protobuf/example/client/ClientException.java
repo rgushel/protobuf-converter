@@ -1,9 +1,8 @@
 package net.badata.protobuf.example.client;
 
 /**
- * Created by jsjem on 05.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class ClientException extends Exception {
 

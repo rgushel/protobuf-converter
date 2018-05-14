@@ -5,9 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by jsjem on 06.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class LoginView implements ActionListener {
 

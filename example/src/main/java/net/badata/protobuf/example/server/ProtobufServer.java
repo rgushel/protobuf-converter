@@ -7,9 +7,8 @@ import net.badata.protobuf.example.proto.LibraryServiceGrpc;
 import java.io.IOException;
 
 /**
- * Created by jsjem on 04.05.2016.
- *
  * @author jsjem
+ * @author Roman Gushel
  */
 public class ProtobufServer {
 
@@ -20,7 +19,7 @@ public class ProtobufServer {
 
 	public void start() throws IOException, InterruptedException {
 		server = ServerBuilder.forPort(PORT)
-				.addService(LibraryServiceGrpc.bindService(new LibraryService(database)))
+				.addService(new LibraryService(database))
 				.build()
 				.start();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
