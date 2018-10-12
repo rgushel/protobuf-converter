@@ -1,6 +1,6 @@
 package net.badata.protobuf.example.client.domain;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.exception.MappingException;
 import net.badata.protobuf.converter.mapping.DefaultMapperImpl;
 import net.badata.protobuf.converter.mapping.MappingResult;
@@ -16,7 +16,7 @@ public class BookMapper extends DefaultMapperImpl {
 	private static final String FIELD_OWNER_NAME = "ownerName";
 
 	@Override
-	public <T extends Message> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
+	public <T extends MessageLite> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
 			final Object domain) throws MappingException {
 		if (isField(fieldResolver, FIELD_OWNER_NAME)) {
 			Book book = (Book) protobuf;
@@ -30,7 +30,7 @@ public class BookMapper extends DefaultMapperImpl {
 	}
 
 	@Override
-	public <T extends Message.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver, final Object domain,
+	public <T extends MessageLite.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver, final Object domain,
 			final T protobufBuilder) throws MappingException {
 		if (isField(fieldResolver, FIELD_OWNER_NAME)) {
 			Book.Builder bookBuilder = (Book.Builder) protobufBuilder;

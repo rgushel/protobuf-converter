@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter.mapping;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.exception.MappingException;
 import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.utils.FieldUtils;
@@ -21,7 +21,7 @@ public class DefaultMapperImpl implements Mapper {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T extends Message> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
+	public <T extends MessageLite> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
 			final Object domain) throws MappingException {
 		Object protobufFieldValue = getFieldValue(FieldUtils.createProtobufGetterName(fieldResolver), protobuf);
 		if (FieldUtils.isComplexType(fieldResolver.getField())) {
@@ -79,7 +79,7 @@ public class DefaultMapperImpl implements Mapper {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T extends Message.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver, final
+	public <T extends MessageLite.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver, final
 	Object domain, final T
 			protobufBuilder) throws MappingException {
 		Object domainFieldValue = getFieldValue(FieldUtils.createDomainGetterName(fieldResolver), domain);

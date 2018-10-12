@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter.writer;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.exception.WriteException;
 import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.type.TypeConverter;
@@ -18,14 +18,14 @@ import java.util.Collection;
  */
 public class ProtobufWriter extends AbstractWriter {
 
-	private final Class<? extends Message.Builder> destinationClass;
+	private final Class<? extends MessageLite.Builder> destinationClass;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param destination Protobuf dto builder instance.
 	 */
-	public ProtobufWriter(final Message.Builder destination) {
+	public ProtobufWriter(final MessageLite.Builder destination) {
 		super(destination);
 		destinationClass = destination.getClass();
 	}

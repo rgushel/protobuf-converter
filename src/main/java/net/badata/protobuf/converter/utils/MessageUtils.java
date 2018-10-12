@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter.utils;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -20,11 +20,11 @@ public class MessageUtils {
 	 * @return Class of the Protobuf message.
 	 */
 	@SuppressWarnings("unchecked")
-	public static Class<? extends Message> getMessageType(final Object object, final String methodName) {
+	public static Class<? extends MessageLite> getMessageType(final Object object, final String methodName) {
 		try {
-			return (Class<? extends Message>) object.getClass().getMethod(methodName).getReturnType();
+			return (Class<? extends MessageLite>) object.getClass().getMethod(methodName).getReturnType();
 		} catch (NoSuchMethodException e) {
-			return Message.class;
+			return MessageLite.class;
 		}
 	}
 
@@ -36,13 +36,13 @@ public class MessageUtils {
 	 * @return Class of the Protobuf message.
 	 */
 	@SuppressWarnings("unchecked")
-	public static Class<? extends Message> getMessageCollectionType(final Object object, final String methodName) {
+	public static Class<? extends MessageLite> getMessageCollectionType(final Object object, final String methodName) {
 		try {
 			ParameterizedType stringListType = (ParameterizedType) object.getClass().getMethod(methodName)
 					.getGenericReturnType();
-			return (Class<? extends Message>) stringListType.getActualTypeArguments()[0];
+			return (Class<? extends MessageLite>) stringListType.getActualTypeArguments()[0];
 		} catch (NoSuchMethodException e) {
-			return Message.class;
+			return MessageLite.class;
 		}
 	}
 

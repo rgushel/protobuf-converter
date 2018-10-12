@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter.utils;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoClasses;
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -29,7 +29,7 @@ public class AnnotationUtils {
 	 * @return Instance of {@link net.badata.protobuf.converter.annotation.ProtoClass ProtoClass} or null if there is
 	 * no relation between {@code domainClass} and {@code protobufClass}.
 	 */
-	public static ProtoClass findProtoClass(final Class<?> domainClass, final Class<? extends Message> protobufClass) {
+	public static ProtoClass findProtoClass(final Class<?> domainClass, final Class<? extends MessageLite> protobufClass) {
 		if (domainClass.isAnnotationPresent(ProtoClass.class)) {
 			return domainClass.getAnnotation(ProtoClass.class);
 		} else if (domainClass.isAnnotationPresent(ProtoClasses.class)) {

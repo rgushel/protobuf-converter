@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.exception.ConverterException;
 import net.badata.protobuf.converter.exception.MappingException;
@@ -85,14 +85,14 @@ public final class Converter {
 	 * @return Domain objects list filled with data stored in the Protobuf dto list.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T, E extends Message> List<T> toDomain(final Class<T> domainClass, final Collection<E>
+	public <T, E extends MessageLite> List<T> toDomain(final Class<T> domainClass, final Collection<E>
 			protobufCollection) {
 		return toDomain(List.class, domainClass, protobufCollection);
 
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T, E extends Message, K extends Collection> K toDomain(final Class<K> collectionClass,
+	private <T, E extends MessageLite, K extends Collection> K toDomain(final Class<K> collectionClass,
 			final Class<T> domainClass, final Collection<E> protobufCollection) {
 		Collection<T> domainList = List.class.isAssignableFrom(collectionClass) ? new ArrayList<T>() : new
 				HashSet<T>();
@@ -111,7 +111,7 @@ public final class Converter {
 	 * @param <E>         Protobuf dto type.
 	 * @return Domain instance filled with data stored in the Protobuf dto.
 	 */
-	public <T, E extends Message> T toDomain(final Class<T> domainClass, final E protobuf) {
+	public <T, E extends MessageLite> T toDomain(final Class<T> domainClass, final E protobuf) {
 		if (protobuf == null) {
 			return null;
 		}
@@ -127,7 +127,7 @@ public final class Converter {
 		}
 	}
 
-	private ProtoClass testDataBinding(final Class<?> domainClass, final Class<? extends Message> protobufClass) {
+	private ProtoClass testDataBinding(final Class<?> domainClass, final Class<? extends MessageLite> protobufClass) {
 		ProtoClass protoClassAnnotation = AnnotationUtils.findProtoClass(domainClass, protobufClass);
 		if (protoClassAnnotation == null) {
 			throw new ConverterException(new TypeRelationException(domainClass, protobufClass));
@@ -145,7 +145,7 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message> void fillDomain(final Object domain, final E protobuf,
+	private <E extends MessageLite> void fillDomain(final Object domain, final E protobuf,
 			final ProtoClass protoClassAnnotation) throws MappingException, WriteException {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
@@ -180,7 +180,7 @@ public final class Converter {
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
 				fieldWriter.write(fieldResolver, createNestedConverter().toDomain(fieldResolver.getDomainType(),
-						(Message) mappedValue));
+						(MessageLite) mappedValue));
 				break;
 			case COLLECTION_MAPPING:
 				Class<?> collectionType = FieldUtils.extractCollectionType(fieldResolver.getField());
@@ -199,7 +199,7 @@ public final class Converter {
 
 	@SuppressWarnings("unchecked")
 	private <T> List<T> createDomainValueList(final Class<T> type, final Object protobufCollection) {
-		return createNestedConverter().toDomain(type, (List<? extends Message>) protobufCollection);
+		return createNestedConverter().toDomain(type, (List<? extends MessageLite>) protobufCollection);
 	}
 
 	/**
@@ -212,13 +212,13 @@ public final class Converter {
 	 * @return Protobuf dto list filled with data stored in the domain object list.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T, E extends Message> List<E> toProtobuf(final Class<E> protobufClass, final Collection<T>
+	public <T, E extends MessageLite> List<E> toProtobuf(final Class<E> protobufClass, final Collection<T>
 			domainCollection) {
 		return toProtobuf(List.class, protobufClass, domainCollection);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T, E extends Message, K extends Collection> K toProtobuf(final Class<K> collectionClass,
+	private <T, E extends MessageLite, K extends Collection> K toProtobuf(final Class<K> collectionClass,
 			final Class<E> protobufClass, final Collection<T> domainCollection) {
 		Collection<E> protobufCollection = List.class.isAssignableFrom(collectionClass) ? new ArrayList<E>() : new
 				HashSet<E>();
@@ -240,7 +240,7 @@ public final class Converter {
 	 * @return Protobuf dto filled with data stored in the domain object.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T, E extends Message> E toProtobuf(final Class<E> protobufClass, final T domain) {
+	public <T, E extends MessageLite> E toProtobuf(final Class<E> protobufClass, final T domain) {
 		if (domain == null) {
 			return null;
 		}
@@ -256,7 +256,7 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message> E.Builder createProtobuf(final Class<E> protobufClass) {
+	private <E extends MessageLite> E.Builder createProtobuf(final Class<E> protobufClass) {
 		try {
 			return (E.Builder) protobufClass.getDeclaredMethod("newBuilder").invoke(null);
 		} catch (IllegalAccessException e) {
@@ -268,7 +268,7 @@ public final class Converter {
 		}
 	}
 
-	private <E extends Message.Builder> void fillProtobuf(final E protobuf, final Object domain,
+	private <E extends MessageLite.Builder> void fillProtobuf(final E protobuf, final Object domain,
 			final ProtoClass protoClassAnnotation) throws MappingException, WriteException {
 		Class<?> domainClass = domain.getClass();
 		Mapper fieldMapper = AnnotationUtils.createMapper(protoClassAnnotation);
@@ -284,18 +284,18 @@ public final class Converter {
 
 	private void fillProtobufField(final FieldResolver fieldResolver, final MappingResult mappingResult)
 			throws WriteException {
-		ProtobufWriter fieldWriter = new ProtobufWriter((Message.Builder) mappingResult.getDestination());
+		ProtobufWriter fieldWriter = new ProtobufWriter((MessageLite.Builder) mappingResult.getDestination());
 		Object mappedValue = mappingResult.getValue();
 		switch (mappingResult.getCode()) {
 			case NESTED_MAPPING:
-				Class<? extends Message> protobufClass = MessageUtils.getMessageType(mappingResult.getDestination(),
+				Class<? extends MessageLite> protobufClass = MessageUtils.getMessageType(mappingResult.getDestination(),
 						FieldUtils.createProtobufGetterName(fieldResolver));
 				fieldWriter.write(fieldResolver, createNestedConverter().toProtobuf(protobufClass, mappedValue));
 				break;
 			case COLLECTION_MAPPING:
 				Class<?> collectionType = FieldUtils.extractCollectionType(fieldResolver.getField());
 				if (FieldUtils.isComplexType(collectionType)) {
-					Class<? extends Message> protobufCollectionClass = MessageUtils.getMessageCollectionType(
+					Class<? extends MessageLite> protobufCollectionClass = MessageUtils.getMessageCollectionType(
 							mappingResult.getDestination(), FieldUtils.createProtobufGetterName(fieldResolver));
 					mappedValue = createProtobufValueList(protobufCollectionClass, fieldResolver.getDomainType(),
 							(Collection) mappedValue);
@@ -307,7 +307,7 @@ public final class Converter {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <E extends Message> Collection<?> createProtobufValueList(final Class<E> type, final Class<?>
+	private <E extends MessageLite> Collection<?> createProtobufValueList(final Class<E> type, final Class<?>
 			domainCollectionClass, final Collection<?> domainCollection) {
 		return createNestedConverter()
 				.toProtobuf((Class<? extends Collection>) domainCollectionClass, type, domainCollection);

@@ -33,7 +33,9 @@ protobuf {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.5.1'
+    compileOnly 'com.google.protobuf:protobuf-java:3.5.1'
+    
+    testCompile 'com.google.protobuf:protobuf-java:3.5.1'
     testCompile 'junit:junit:4.12'
 }
 

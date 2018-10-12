@@ -1,6 +1,6 @@
 package net.badata.protobuf.converter.mapping;
 
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.exception.MappingException;
 import net.badata.protobuf.converter.resolver.FieldResolver;
 
@@ -23,7 +23,7 @@ public interface Mapper {
 	 * @throws net.badata.protobuf.converter.exception.MappingException throws when Protobuf dto field data access
 	 *                                                                  problems is occurred.
 	 */
-	<T extends Message> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
+	<T extends MessageLite> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T protobuf,
 			final Object domain) throws MappingException;
 
 	/**
@@ -36,6 +36,6 @@ public interface Mapper {
 	 * @return Result of the data mapping from domain object to Protobuf dto.
 	 * @throws MappingException throws when domain object field data access problems is occurred.
 	 */
-	<T extends Message.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver,
+	<T extends MessageLite.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver,
 			final Object domain, final T protobufBuilder) throws MappingException;
 }

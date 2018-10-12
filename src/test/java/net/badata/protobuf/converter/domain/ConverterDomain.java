@@ -1,7 +1,7 @@
 package net.badata.protobuf.converter.domain;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import net.badata.protobuf.converter.exception.MappingException;
@@ -411,7 +411,7 @@ public class ConverterDomain {
 	public static class MultiMappingMapperImpl extends DefaultMapperImpl {
 
 		@Override
-		public <T extends Message.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver,
+		public <T extends MessageLite.Builder> MappingResult mapToProtobufField(final FieldResolver fieldResolver,
 				final Object domain, final T protobufBuilder) throws MappingException {
 			if (FieldResolverFactoryImpl.FIELD_INT_VALUE.equals(fieldResolver.getDomainName()) ||
 					FieldResolverFactoryImpl.FIELD_LONG_VALUE.equals(fieldResolver.getDomainName())) {
@@ -421,7 +421,7 @@ public class ConverterDomain {
 		}
 
 		@Override
-		public <T extends Message> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T
+		public <T extends MessageLite> MappingResult mapToDomainField(final FieldResolver fieldResolver, final T
 				protobuf, final Object domain) throws MappingException {
 			if (FieldResolverFactoryImpl.FIELD_INT_VALUE.equals(fieldResolver.getDomainName()) ||
 					FieldResolverFactoryImpl.FIELD_LONG_VALUE.equals(fieldResolver.getDomainName())) {
