@@ -12,6 +12,9 @@ import net.badata.protobuf.converter.mapping.Mapper;
 import net.badata.protobuf.converter.resolver.FieldResolverFactory;
 import net.badata.protobuf.converter.type.TypeConverter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Utilities for extract data stored in the annotations.
  *
@@ -76,13 +79,15 @@ public class AnnotationUtils {
 	 *                          default constructor not public.
 	 */
 	public static FieldResolverFactory createFieldFactory(final ProtoClass annotation) throws MappingException {
+		Class<? extends FieldResolverFactory> fieldFactory = annotation.fieldFactory();
+//		System.out.println("Field Factory: " + fieldFactory.getSimpleName());
 		try {
-			return annotation.fieldFactory().newInstance();
+			return fieldFactory.newInstance();
 		} catch (InstantiationException e) {
 			throw new MappingException("Default constructor not found.");
 		} catch (IllegalAccessException e) {
 			throw new MappingException("Make default constructor public for "
-					+ annotation.fieldFactory().getSimpleName(), e);
+					+ fieldFactory.getSimpleName(), e);
 		}
 	}
 
@@ -90,19 +95,29 @@ public class AnnotationUtils {
 	 * Create {@link net.badata.protobuf.converter.type.TypeConverter TypeConverter} implementation from class
 	 * specified in the {@link net.badata.protobuf.converter.annotation.ProtoClass ProtoClass} converter field.
 	 *
-	 * @param annotation Instance of {@link net.badata.protobuf.converter.annotation.ProtoClass ProtoClass} annotation.
+	 * @param annotation Instance of {@link ProtoClass ProtoClass} annotation.
+	 * @param domain
 	 * @return Instance of the {@link net.badata.protobuf.converter.type.TypeConverter TypeConverter} interface.
 	 * @throws WriteException If converter class does not contain default constructor or default constructor not
 	 *                        public.
 	 */
-	public static TypeConverter<?, ?> createTypeConverter(final ProtoField annotation) throws WriteException {
+	public static TypeConverter<?, ?> createTypeConverter(final ProtoField annotation, Object domain) throws WriteException {
 		try {
-			return annotation.converter().newInstance();
+			Class<? extends TypeConverter<?, ?>> converter = annotation.converter();
+			if (Boolean.valueOf(annotation.includeDomainObject())) {
+				Constructor<? extends TypeConverter<?, ?>> constructor = converter.getConstructor(domain.getClass());
+				return constructor.newInstance(domain);
+			}
+			return converter.newInstance();
 		} catch (InstantiationException e) {
 			throw new WriteException("Default constructor not found.");
 		} catch (IllegalAccessException e) {
 			throw new WriteException("Make default constructor public for "
 					+ annotation.converter().getSimpleName(), e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Couldn't find a constructor that receives an object", e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

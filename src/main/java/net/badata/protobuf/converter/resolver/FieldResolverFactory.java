@@ -17,4 +17,6 @@ public interface FieldResolverFactory {
 	 * @return instance of {@link net.badata.protobuf.converter.resolver.FieldResolver FieldResolver}
 	 */
 	FieldResolver createResolver(final Field field);
+
+	FieldResolver createResolver(final Field field, final Object domainObject);
 }

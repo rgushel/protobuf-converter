@@ -49,4 +49,6 @@ public @interface ProtoField {
 	 * @return Class for null check.
 	 */
 	Class<? extends NullValueInspector> nullValue() default DefaultNullValueInspectorImpl.class;
+
+	String includeDomainObject() default "false";
 }
