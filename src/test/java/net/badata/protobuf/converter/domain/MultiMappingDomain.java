@@ -78,12 +78,12 @@ public class MultiMappingDomain {
 		public static final String FIELD_LONG_VALUE = "longValue";
 
 		@Override
-		public FieldResolver createResolver(final Field field) {
+		public FieldResolver createResolver(final Field field, final Object domain) {
 			if (FIELD_INT_VALUE.equals(field.getName())) {
-				return super.createResolver(field);
+				return super.createResolver(field, domain);
 			}
 			if (FIELD_LONG_VALUE.equals(field.getName())) {
-				DefaultFieldResolverImpl fieldResolver = (DefaultFieldResolverImpl) super.createResolver(field);
+				DefaultFieldResolverImpl fieldResolver = (DefaultFieldResolverImpl) super.createResolver(field, domain);
 				fieldResolver.setProtobufName("longValueChanged");
 				return fieldResolver;
 			}

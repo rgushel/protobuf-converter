@@ -24,6 +24,8 @@ public class ConverterTest {
 	private ConverterProto.ConverterTest testProtobuf;
 
 	private FieldsIgnore fieldsIgnore;
+	private ConverterDomain.DomainConstructorTest domainConstructorTest;
+	private ConverterProto.DomainConstructorTest domainConstructorTestProto;
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,6 +62,10 @@ public class ConverterTest {
 				.setBytesValue(ByteString.copyFrom(new byte[]{ 0, 1, 3, 7 }))
 				.setRecursiveValue(ConverterProto.ConverterTest.newBuilder().setIntValue(1))
 				.build();
+
+		domainConstructorTestProto = ConverterProto.DomainConstructorTest.newBuilder()
+				.setMsg("Hello Proto")
+				.build();
 	}
 
 	private void createTestDomain() {
@@ -87,6 +93,9 @@ public class ConverterTest {
 		testDomain.setPrimitiveValue(primitiveTest);
 		testDomain.setFieldConversionValue(fieldConverterTest);
 		testDomain.setSimpleListValue(Arrays.asList("110"));
+
+		domainConstructorTest = new ConverterDomain.DomainConstructorTest();
+		domainConstructorTest.setMsg("Hello Domain Object");
 
 		ConverterDomain.PrimitiveTest primitiveTestItem = new ConverterDomain.PrimitiveTest();
 		primitiveTestItem.setIntValue(-1001);
@@ -232,4 +241,17 @@ public class ConverterTest {
 		Assert.assertTrue(result.getComplexListValueList().isEmpty());
 	}
 
+	@Test
+	public void testDomainObjectConstructor() {
+		ConverterDomain.DomainConstructorTest domainConstructorTestResult = Converter.create().toDomain(ConverterDomain.DomainConstructorTest.class, domainConstructorTestProto);
+
+		Assert.assertEquals("Hello Proto", domainConstructorTestResult.getMsg());
+		Assert.assertEquals("toDomainValue!", domainConstructorTestResult.getMsg2());
+
+		Assert.assertEquals("initialValue", domainConstructorTest.getMsg2());
+		ConverterProto.DomainConstructorTest domainConstructorTestProtoResult = Converter.create().toProtobuf(ConverterProto.DomainConstructorTest.class, domainConstructorTest);
+
+		Assert.assertEquals("toProtobufValue!", domainConstructorTest.getMsg2());
+		Assert.assertEquals("Hello Domain Object", domainConstructorTestProtoResult.getMsg());
+	}
 }

@@ -16,6 +16,7 @@ import net.badata.protobuf.converter.resolver.FieldResolver;
 import net.badata.protobuf.converter.type.DateLongConverterImpl;
 import net.badata.protobuf.converter.type.EnumStringConverter;
 import net.badata.protobuf.converter.type.SetListConverterImpl;
+import net.badata.protobuf.converter.type.TypeConverter;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -373,6 +374,51 @@ public class ConverterDomain {
 		}
 	}
 
+	@ProtoClass(ConverterProto.DomainConstructorTest.class)
+	public static class DomainConstructorTest {
+
+		@ProtoField(converter = DomainConstructorTestConverter.class, useConverterConstructorWithDomainObject = "true")
+		private String msg;
+
+		private String msg2 = "initialValue";
+
+		public String getMsg() {
+			return msg;
+		}
+
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+
+		public String getMsg2() {
+			return msg2;
+		}
+
+		public void setMsg2(String msg2) {
+			this.msg2 = msg2;
+		}
+	}
+
+	public static class DomainConstructorTestConverter implements TypeConverter<String, String> {
+		private final DomainConstructorTest domainObj;
+
+		public DomainConstructorTestConverter(DomainConstructorTest domainObj) {
+			this.domainObj = domainObj;
+		}
+
+		@Override
+		public String toDomainValue(Object instance) {
+		    this.domainObj.setMsg2("toDomainValue!");
+		    return (String) instance;
+		}
+
+		@Override
+		public String toProtobufValue(Object instance) {
+			this.domainObj.setMsg2("toProtobufValue!");
+			return (String) instance;
+		}
+	}
+
 	public static class AlwaysNullInspector implements NullValueInspector {
 
 		@Override
@@ -395,12 +441,12 @@ public class ConverterDomain {
 		public static final String FIELD_LONG_VALUE = "longValue";
 
 		@Override
-		public FieldResolver createResolver(final Field field) {
+		public FieldResolver createResolver(final Field field, Object domain) {
 			if (FIELD_INT_VALUE.equals(field.getName())) {
-				return super.createResolver(field);
+				return super.createResolver(field, domain);
 			}
 			if (FIELD_LONG_VALUE.equals(field.getName())) {
-				DefaultFieldResolverImpl fieldResolver = (DefaultFieldResolverImpl) super.createResolver(field);
+				DefaultFieldResolverImpl fieldResolver = (DefaultFieldResolverImpl) super.createResolver(field, domain);
 				fieldResolver.setProtobufName("longValueChanged");
 				return fieldResolver;
 			}
@@ -430,4 +476,5 @@ public class ConverterDomain {
 			return new MappingResult(MappingResult.Result.MAPPED, null, domain);
 		}
 	}
+
 }

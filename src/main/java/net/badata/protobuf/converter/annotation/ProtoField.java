@@ -49,4 +49,16 @@ public @interface ProtoField {
 	 * @return Class for null check.
 	 */
 	Class<? extends NullValueInspector> nullValue() default DefaultNullValueInspectorImpl.class;
+
+	/**
+	 * Used to specify that a constructor with the domain object parameter should be used to instantiate 
+	 * the TypeConverter, instead of the default no args constructor.
+	 * 
+	 * Valid values are "true" or "false".
+	 * 
+	 * @return String value "true" or "false", defaults to "false".
+	 */
+	String useConverterConstructorWithDomainObject() default "false";
+
+
 }
