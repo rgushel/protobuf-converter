@@ -80,7 +80,6 @@ public class AnnotationUtils {
 	 */
 	public static FieldResolverFactory createFieldFactory(final ProtoClass annotation) throws MappingException {
 		Class<? extends FieldResolverFactory> fieldFactory = annotation.fieldFactory();
-//		System.out.println("Field Factory: " + fieldFactory.getSimpleName());
 		try {
 			return fieldFactory.newInstance();
 		} catch (InstantiationException e) {
@@ -104,9 +103,11 @@ public class AnnotationUtils {
 	public static TypeConverter<?, ?> createTypeConverter(final ProtoField annotation, Object domain) throws WriteException {
 		try {
 			Class<? extends TypeConverter<?, ?>> converter = annotation.converter();
-			if (Boolean.valueOf(annotation.includeDomainObject())) {
-				Constructor<? extends TypeConverter<?, ?>> constructor = converter.getConstructor(domain.getClass());
-				return constructor.newInstance(domain);
+			if (Boolean.valueOf(annotation.useConverterConstructorWithDomainObject())) {
+				Constructor<?> domainConstructor = resolveConstructorForDomainObject(converter, domain);
+				if (domainConstructor != null) {
+					return (TypeConverter<?, ?>) domainConstructor.newInstance(domain);
+				}
 			}
 			return converter.newInstance();
 		} catch (InstantiationException e) {
@@ -114,11 +115,23 @@ public class AnnotationUtils {
 		} catch (IllegalAccessException e) {
 			throw new WriteException("Make default constructor public for "
 					+ annotation.converter().getSimpleName(), e);
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException("Couldn't find a constructor that receives an object", e);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
+			throw new WriteException("Domain Object constructor threw an exception for converter "
+					+ annotation.converter().getSimpleName());
 		}
+	}
+
+	private static Constructor<?> resolveConstructorForDomainObject(Class<? extends TypeConverter<?, ?>> converter, Object domain) {
+		Constructor<?> domainObjectConstructor = null;
+		for (Constructor<?> constructor : converter.getDeclaredConstructors()) {
+			Class<?>[] parameterTypes = constructor.getParameterTypes();
+			if (parameterTypes.length == 1) {
+				if (domain == null || parameterTypes[0].isAssignableFrom(domain.getClass())) {
+					domainObjectConstructor = constructor;
+				}
+			}
+		}
+		return domainObjectConstructor;
 	}
 
 	/**

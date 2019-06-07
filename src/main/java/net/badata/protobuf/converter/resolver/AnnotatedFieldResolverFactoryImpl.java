@@ -18,38 +18,32 @@ import java.lang.reflect.Field;
  */
 public class AnnotatedFieldResolverFactoryImpl implements FieldResolverFactory {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FieldResolver createResolver(final Field field) {
-        System.out.println("AnnotatedFieldResolverFactoryImpl ... Field name: " + field.getName());
-        return createResolver(field, null);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FieldResolver createResolver(Field field, Object domain) {
+		DefaultFieldResolverImpl fieldResolver = new DefaultFieldResolverImpl(field);
+		if (field.isAnnotationPresent(ProtoField.class)) {
+			try {
+				initializeFieldResolver(fieldResolver, field.getAnnotation(ProtoField.class), domain);
+			} catch (WriteException e) {
+				throw new ConverterException("Can't initialize field resolver", e);
+			}
+		}
+		return fieldResolver;
+	}
 
-    @Override
-    public FieldResolver createResolver(Field field, Object domain) {
-        DefaultFieldResolverImpl fieldResolver = new DefaultFieldResolverImpl(field);
-        if (field.isAnnotationPresent(ProtoField.class)) {
-            try {
-                initializeFieldResolver(fieldResolver, field.getAnnotation(ProtoField.class), domain);
-            } catch (WriteException e) {
-                throw new ConverterException("Can't initialize field resolver", e);
-            }
-        }
-        return fieldResolver;
-    }
-
-    private void initializeFieldResolver(final DefaultFieldResolverImpl resolver, final ProtoField annotation, Object domain) throws
-            WriteException {
-        if (!"".equals(annotation.name())) {
-            resolver.setProtobufName(annotation.name());
-        }
-        Class<?> protobufType = FieldUtils.extractProtobufFieldType(annotation.converter(), resolver.getProtobufType());
-        resolver.setProtobufType(protobufType);
-        resolver.setConverter(AnnotationUtils.createTypeConverter(annotation, domain));
-        resolver.setNullValueInspector(AnnotationUtils.createNullValueInspector(annotation));
-        resolver.setDefaultValue(AnnotationUtils.createDefaultValue(annotation));
-    }
+	private void initializeFieldResolver(final DefaultFieldResolverImpl resolver, final ProtoField annotation, Object domain) throws
+			WriteException {
+		if (!"".equals(annotation.name())) {
+			resolver.setProtobufName(annotation.name());
+		}
+		Class<?> protobufType = FieldUtils.extractProtobufFieldType(annotation.converter(), resolver.getProtobufType());
+		resolver.setProtobufType(protobufType);
+		resolver.setConverter(AnnotationUtils.createTypeConverter(annotation, domain));
+		resolver.setNullValueInspector(AnnotationUtils.createNullValueInspector(annotation));
+		resolver.setDefaultValue(AnnotationUtils.createDefaultValue(annotation));
+	}
 
 }

@@ -154,7 +154,6 @@ public final class Converter {
 			if (configuration.getIgnoredFields().ignored(field)) {
 				continue;
 			}
-			System.out.println("Protobuf: " + protobuf);
 			FieldResolver fieldResolver = fieldFactory.createResolver(field, domain);
 			fillDomainField(fieldResolver, fieldMapper.mapToDomainField(fieldResolver, protobuf, domain));
 		}
@@ -278,7 +277,7 @@ public final class Converter {
 			if (configuration.getIgnoredFields().ignored(field)) {
 				continue;
 			}
-			FieldResolver fieldResolver = fieldFactory.createResolver(field);
+			FieldResolver fieldResolver = fieldFactory.createResolver(field, domain);
 			fillProtobufField(fieldResolver, fieldMapper.mapToProtobufField(fieldResolver, domain, protobuf));
 		}
 	}
