@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'maven-publish'
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
@@ -50,4 +54,26 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+publishing {
+    publications {
+        helixProtoConverter(MavenPublication) {
+            version = '1.1.6'
+
+            from components.java
+            artifact sourcesJar
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'helix'
+            url = "https://repo.helix.re/repository/helix/"
+            credentials {
+                username "$helixRepoUser"
+                password "$helixRepoPassword"
+            }
+        }
+    }
 }
