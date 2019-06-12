@@ -59,7 +59,7 @@ artifacts {
 publishing {
     publications {
         helixProtoConverter(MavenPublication) {
-            version = '1.1.6'
+            version = "$buildVersion"
 
             from components.java
             artifact sourcesJar

@@ -1,0 +1,11 @@
+steps:
+- name: 'us.gcr.io/helix-global/cloud-builders/gradle:openjdk11'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    export buildVersion="0.0.0"
+    export helixRepoUser=${_REPO_PASSWORD}
+    export helixRepoPassword=${_REPO_USER}
+    gradle clean build -PhelixRepoUser=${_REPO_USER} -PhelixRepoPassword={$_REPO_PASSWORD} -PbuildVersion=$$buildVersion
+   
