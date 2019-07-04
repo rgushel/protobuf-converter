@@ -11,8 +11,8 @@ You can add this library as a dependency to your Maven or Gradle project through
 ## How to use it ?
 Domain model classes that have to be transformed into protobuf messages must satisfy conditions:
 
-* Class has to be marked by *@ProtoClass* annotaion that contains reference on related protobuf message class.
-* Class fields has to be marked by *@ProtoField* annotaion. These fields must have getters and setters.
+* Class has to be marked by *@ProtoClass* annotation that contains reference on related protobuf message class.
+* Class fields has to be marked by *@ProtoField* annotation. These fields must have getters and setters.
 
 E.g.:
 ```java
