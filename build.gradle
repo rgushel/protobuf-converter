@@ -20,10 +20,10 @@ repositories {
     mavenCentral()
 }
 
-[ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceCompatibility='1.7'
-targetCompatibility='1.7'
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
 
 protobuf {
     protoc {

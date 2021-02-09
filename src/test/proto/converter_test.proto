@@ -42,3 +42,7 @@ message ConverterTest {
 	bytes bytesValue = 14;
 	ConverterTest recursiveValue = 15;
 }
+
+message DomainConstructorTest {
+	string msg = 1;
+}
